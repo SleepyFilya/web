@@ -1,0 +1,35 @@
+<section id="products">
+
+    <div class="container-fluid mt-5" style="max-width: 1200px">
+
+
+        <div th:if="${products.size() > 0}">
+            <table class="table table-hover table-responsive-xl ">
+                <thead class="thead-dark table-light">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col"></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+
+                    <td style="text-align: center"><img width="200px" src="https://sun9-52.userapi.com/impg/6zz8cKmQxMIqMqA5uKLv5w55opf9vghesScQFQ/zVG8EndkmlA.jpg?size=1280x854&quality=96&sign=aad8ad4a8302d84049e0e37ccbacd9be&type=album"></td>
+                    <td>[[${product.title}]]</td>
+                    <td>[[${product.description}]]</td>
+                    <td>[[${product.price}]]</td>
+
+                    <td style="text-align: center">
+                        <button type="button" class="btn btn-dark btn-sm">Добавить в корзину</button>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

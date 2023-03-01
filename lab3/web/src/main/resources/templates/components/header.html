@@ -1,0 +1,52 @@
+<header class="bg-dark" th:fragment="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 ">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+<!--                            <img src="/image/logo_white.png" width="200" height="40">-->
+                            <img width="200" height="40" src="https://psv4.userapi.com/c235131/u202940557/docs/d33/aa3a74d373ea/logo_white.png?extra=yNBipWHUWxPDHMYRoOEcgyGLSqe845Xq-z8o9GnBcBm3tb1DZ0i25w7RR36AabwCCfvoqTMPjbcyg8obSgLQ98xrdKUzTAD9hWc_gpbDAhLiToabxJCvRkbn-ZUsbBviS23tFl3pyCl4OMA9gz9rd9bfnQ">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse text-uppercase" id="navbarNavAltMarkup">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Главная</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Каталог</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Отзывы</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Рекомендации</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Контакты</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <a class="btn btn-dark btn-lg btn  ">
+                            <i class="bi bi-cart4"></i>
+                        </a>
+
+                        <a class="btn btn-dark btn-lg btn" data-bs-target="#modalCity" data-bs-toggle="modal" id="btnLocation">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </a>
+
+                        <div class="location" id="local" style="color: #ffffff"></div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+

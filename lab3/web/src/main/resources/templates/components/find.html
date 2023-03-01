@@ -1,0 +1,31 @@
+<section class="catalog_h" id="find">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 ms-5" >
+                <h1>Каталог товаров</h1>
+            </div>
+
+            <form th:action="@{/products}" id="searchForm" >
+                <div class="row d-flex">
+                    <div class="col-md-6 mt-2 ms-5">
+                        <div class="search">
+                            <i class="fa fa-search"></i>
+                            <input id="keyword" type="search" name="keyword" th:value="${keyword}" required
+                                   class="form-control"
+                                   placeholder="Поиск">
+                            <button id="mySearch" type="submit" class="btn btn-secondary">Найти</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2 mt-2">
+                        <button id="btnSortByUpperPrice" type="submit" class="btn btn-dark">По возрастанию цены
+                        </button>
+                    </div>
+                    <div class="col-md-2 mt-2">
+                        <button id="btnSortByLowerPrice" type="submit" class="btn btn-dark">По убыванию цены
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

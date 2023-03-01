@@ -51,13 +51,6 @@ $(document).ready(function () {
         setCookie("location", location, 365);
 
     });
-    // location= document.getElementById('modalCity');;
-    // function checkCookie() {
-    //
-    // }
-
-
-
 
         var sendAjax = function(sort) {
           var keyword = $('#keyword').val();

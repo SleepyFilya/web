@@ -58,8 +58,7 @@ $(document).ready(function () {
             .done(function (data) {
                     var $content = $('table.table', $(data));
                     $('table.table').html($content);
-            }
-            );
+            });
     };
 
     $("#btnSortByUpperPrice").on("click", function (e) {

@@ -52,32 +52,29 @@ $(document).ready(function () {
 
     });
 
-        var sendAjax = function(sort) {
-          var keyword = $('#keyword').val();
-            $.ajax({url: "products?keyword=" + keyword + "&sort=" + sort})
-                .done(function (data) {
-                        var $content = $('table.table', $(data));
-                        $('table.table').html($content);
-                }
-                );
-        };
+    var sendAjax = function(sort) {
+      var keyword = $('#keyword').val();
+        $.ajax({url: "products?keyword=" + keyword + "&sort=" + sort})
+            .done(function (data) {
+                    var $content = $('table.table', $(data));
+                    $('table.table').html($content);
+            }
+            );
+    };
 
-        $("#btnSortByUpperPrice").on("click", function (e) {
-            e.preventDefault();
-            sendAjax("SortByUpperPrice");
-
-        });
-
-        $("#btnSortByLowerPrice").on("click", function (e) {
-            e.preventDefault();
-            sendAjax("SortByLowerPrice");
-        });
-
-        $("#mySearch").on("click", function (e) {
-            e.preventDefault();
-            sendAjax("no");
-        });
-
-
+    $("#btnSortByUpperPrice").on("click", function (e) {
+        e.preventDefault();
+        sendAjax("SortByUpperPrice");
 
     });
+
+    $("#btnSortByLowerPrice").on("click", function (e) {
+        e.preventDefault();
+        sendAjax("SortByLowerPrice");
+    });
+
+    $("#mySearch").on("click", function (e) {
+        e.preventDefault();
+        sendAjax("no");
+    });
+});

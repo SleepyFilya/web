@@ -4,16 +4,19 @@ $(document).ready(function () {
     function setCookie(cname, cvalue, exdays) {
         const d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        let expires = "expires="+d.toUTCString();
+        let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        document.getElementById('close').click();
+
+        // Закрытие модального окна
+        $("#modalCity").modal("hide");
+
         setCookieValue();
     }
 
     function getCookie(cname) {
         let name = cname + "=";
         let ca = document.cookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
+        for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
@@ -30,7 +33,9 @@ $(document).ready(function () {
         if (location != "") {
             setCookieValue();
         } else {
-            document.getElementById('btnLocation').click();
+            //Открытие модального окна
+            var myModal = new bootstrap.Modal(document.getElementById('modalCity'), {})
+            myModal.show()
         }
     }
 
@@ -49,15 +54,14 @@ $(document).ready(function () {
         e.preventDefault();
         let location = document.getElementById('city').value;
         setCookie("location", location, 365);
-
     });
 
-    var sendAjax = function(sort) {
-      var keyword = $('#keyword').val();
+    var sendAjax = function (sort) {
+        var keyword = $('#keyword').val();
         $.ajax({url: "products?keyword=" + keyword + "&sort=" + sort})
             .done(function (data) {
-                    var $content = $('table.table', $(data));
-                    $('table.table').html($content);
+                var $content = $('table.table', $(data));
+                $('table.table').html($content);
             });
     };
 

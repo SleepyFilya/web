@@ -80,4 +80,9 @@ $(document).ready(function () {
         e.preventDefault();
         sendAjax("no");
     });
+
+    $('body').on('click', '.add-to-cart', function() {
+        var product_id = $(this).val().toString();
+        console.log("id: " + product_id);
+    });
 });

@@ -23,15 +23,6 @@ public class Home {
                 System.out.println("ddddddd");
                 products = getSortedByPriceList(products, sort);
             }
-//
-//            if(keyword != " ")
-//                products = getFilteredList(products, settings[1]);
-//            if(settings[0] == "SortByUpperPrice" || settings[0] == "SortByLowerPrice")
-//                products = getSortedByPriceList(products, settings[0]);
-//            if (Objects.equals(keyword, new String("SortByUpperPrice")) || Objects.equals(keyword, new String("SortByLowerPrice")))
-//                products = getSortedByPriceList(products, keyword);
-//            else if (keyword != null && keyword != "")
-//                products = getFilteredList(products, keyword);
 
             model.addAttribute("products", products);
         } catch (Exception e) {
@@ -49,6 +40,7 @@ public class Home {
 
             String product = (i < 5) ? "Fish" : "Honey";
 
+            curTut.setId(i + 1);
             curTut.setTitle(product + " basket #" + (i + 1));
             curTut.setDescription("Cool " + product + " basket");
             curTut.setPrice((10 - i) * 100);

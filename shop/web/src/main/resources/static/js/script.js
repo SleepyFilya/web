@@ -83,6 +83,18 @@ $(document).ready(function () {
 
     $('body').on('click', '.add-to-cart', function() {
         var product_id = $(this).val().toString();
-        console.log("id: " + product_id);
+        var param = "?product_id=" + product_id;
+        console.log(param);
+        $.ajax({type: "POST",
+                url: '/add_to_basket' + param,
+                dataType: "text",
+                success: function (result) {
+                    $(".counter").text(result);
+                }
+        });
+    });
+
+    $("#basket-icon").on('click', function() {
+        window.location.href = '/basket';
     });
 });

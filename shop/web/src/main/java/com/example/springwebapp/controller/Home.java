@@ -1,11 +1,14 @@
 package com.example.springwebapp.controller;
 import java.util.*;
 
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.springwebapp.entity.Product;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class Home {
@@ -13,16 +16,12 @@ public class Home {
     public String getAll(Model model, @RequestParam(required = false, name="keyword") String keyword,
                          @RequestParam(required = false, name="sort") String sort) {
         try {
-            System.out.println(keyword);
-            System.out.println(sort);
             List<Product> products = getProductsList();
 
             if(keyword != null && keyword != "")
                 products = getFilteredList(products, keyword);
-            if("SortByUpperPrice".equals(sort) || "SortByLowerPrice".equals(sort)) {
-                System.out.println("ddddddd");
+            if("SortByUpperPrice".equals(sort) || "SortByLowerPrice".equals(sort))
                 products = getSortedByPriceList(products, sort);
-            }
 
             model.addAttribute("products", products);
         } catch (Exception e) {
@@ -96,6 +95,33 @@ public class Home {
 
         return tutorialList;
     }
+
+    @GetMapping("/basket")
+    public String getBasket(Model model) {
+        try {
+            List<Product> products = getProductsList();
+            model.addAttribute("products", products);
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "basket";
+    }
+
+    @RequestMapping("/add_to_basket")
+    @ResponseBody
+    public String cartCounterChange(Model model, HttpSession session,
+                                    @RequestParam(name="product_id") String product_id)
+    {
+        //добавление в корзину + что-то про сессию
+        //запрос актуального количества товаров в корзине
+        String goodsCounter = "5";
+        model.addAttribute("goodsCounter", goodsCounter);
+
+        return goodsCounter;
+    }
+
+
 }
 
 

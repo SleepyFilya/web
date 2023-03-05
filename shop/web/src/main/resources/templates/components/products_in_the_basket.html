@@ -13,9 +13,11 @@
                         </td>
                         <td>[[${product.title}]]</td>
                         <td id="count">
-<!--                            <button type="button" class="btn btn-dark btn-sm">-</button>-->
-                            <input type="number" step="1" min="0" max="100" id="number" placeholder="0">
-<!--                            <button type="button" class="btn btn-dark btn-sm">+</button>-->
+                            <div class="input-number">
+                                <div class="input-number-minus btn btn-dark">-</div>
+                                <input class="input-number-input" type="text" pattern="^[0-9]+$" value="1">
+                                <div class="input-number-plus btn btn-dark">+</div>
+                            </div>
                         </td>
                         <td>
                             <b>[[${product.price}]]</b>

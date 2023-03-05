@@ -1,9 +1,30 @@
-#number{
-    width: 3em;
+.input-number {
+    display: flex;
+    align-items: center;
+    border: 1px solid #E5E8EE;
+    box-sizing: border-box;
+    border-radius: 6px;
+    color: #424348;
+    font-size: 14px;
+    text-align: center;
+    width: calc(33px * 3);
 }
 
-#count button{
-    width: 2em;
-    align: center;
+.input-number-input {
+    width: 32px;
+    height: 32px;
+    border: none;
+    padding: 8px;
+    text-align: center;
 }
 
+.input-number-minus,
+.input-number-plus {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}

@@ -1,0 +1,47 @@
+<div class="container pt-4" id="basket">
+    <div class="row gx-5">
+        <div class="col-9">
+            <div th:if="${products.size() > 0}">
+
+                <table class="table table-hover table-responsive-xl">
+                    <h2>Корзина</h2>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+
+                        <td style="text-align: center"><img width="200px"
+                                                            src="https://sun9-52.userapi.com/impg/6zz8cKmQxMIqMqA5uKLv5w55opf9vghesScQFQ/zVG8EndkmlA.jpg?size=1280x854&quality=96&sign=aad8ad4a8302d84049e0e37ccbacd9be&type=album">
+                        </td>
+                        <td>[[${product.title}]]</td>
+                        <td id="count">
+<!--                            <button type="button" class="btn btn-dark btn-sm">-</button>-->
+                            <input type="number" step="1" min="0" max="100" id="number" placeholder="0">
+<!--                            <button type="button" class="btn btn-dark btn-sm">+</button>-->
+                        </td>
+                        <td>
+                            <b>[[${product.price}]]</b>
+                            <i class="fa-solid fa-ruble-sign"></i>
+                        </td>
+
+                        <td>
+                            <a class="btn btn-outline-dark">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-3 border border-secondary rounded d-grid gap-2" style="height: 250px">
+            <h2>К покупке</h2>
+            <p style="color: #767377">Товары, 1 шт.</p>
+            <h4><b>Итого: 1000</b> <i class="fa-solid fa-ruble-sign"></i></h4>
+            <button type="button" class="btn btn-dark mb-2">Оформить покупку</button>
+        </div>
+    </div>
+</div>
+
+

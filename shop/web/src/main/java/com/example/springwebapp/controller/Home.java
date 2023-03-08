@@ -30,7 +30,10 @@ public class Home
             if("SortByUpperPrice".equals(sort) || "SortByLowerPrice".equals(sort))
                 products = productsCollection.getSortedByPriceList(products, sort);
 
+            String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
+
             model.addAttribute("products", products);
+            model.addAttribute("goodsCounter", goodsCounter);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
@@ -55,17 +58,45 @@ public class Home
         return "basket";
     }
 
-    @RequestMapping("/add_to_basket")
+    @RequestMapping("/change_basket")
     @ResponseBody
-    public String cartCounterChange(Model model, HttpSession session,
-                                    @RequestParam(name="product_id") String product_id)
+    public String basketCounterChange(Model model, HttpSession session,
+                                      @RequestParam(name="product_id") String product_id,
+                                      @RequestParam(name="action") String action)
     {
-        basketsCollection.addProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+        if("1".equals(action))
+            basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+        if("0".equals(action))
+            basketsCollection.minusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+
         String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
         model.addAttribute("goodsCounter", goodsCounter);
         return goodsCounter;
     }
 
+    @RequestMapping("/remove_from_basket")
+    @ResponseBody
+    public String removeFromBasket(Model model, HttpSession session,
+                                      @RequestParam(name="product_id") String product_id)
+    {
+        try {
+            basketsCollection.removeProductFromBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+
+            Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(session).getProductMap();
+            List<Product> products = new ArrayList<>(productsMap.keySet());
+            List<Integer> productCounts = new ArrayList<>(productsMap.values());
+            String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
+
+
+            model.addAttribute("products", products);
+            model.addAttribute("counts", productCounts);
+            model.addAttribute("goodsCounter", goodsCounter);
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "basket";
+    }
 }
 
 

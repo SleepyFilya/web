@@ -14,9 +14,9 @@
                         <td>[[${product.title}]]</td>
                         <td id="count">
                             <div class="input-number">
-                                <div class="input-number-minus btn btn-dark">-</div>
+                                <button type="button" class="input-number-minus btn btn-dark" th:value="${product.id}">-</button>
                                 <input class="input-number-input" type="text" pattern="^[0-9]+$" value="1">
-                                <div class="input-number-plus btn btn-dark">+</div>
+                                <button type="button" class="input-number-plus btn btn-dark" th:value="${product.id}">+</button>
                             </div>
                         </td>
                         <td>
@@ -26,7 +26,7 @@
 
                         <td>
                             <a class="btn btn-outline-dark">
-                                <i class="bi bi-trash-fill"></i>
+                                <button type="button" class="bi bi-trash-fill" th:value="${product.id}"></button>
                             </a>
 
                         </td>

@@ -20,12 +20,17 @@ public class Basket
     public Map<Product, Integer> getProductMap() { return productMap; }
 
 
-    public void addProductToMap(Product product)
+    public void plusProductToMap(Product product)
     {
         if(productMap.containsKey(product))
             productMap.put(product, productMap.get(product) + 1);
         else
             productMap.put(product, 1);
+    }
+
+    public void minusProductFromMap(Product product)
+    {
+        productMap.put(product, productMap.get(product) - 1);
     }
 
     public void removeProductFromMap(Product product) { productMap.remove(product); }

@@ -28,7 +28,7 @@ $(document).ready(function () {
         return "";
     }
 
-    function checkCookie() {
+    function checkCookie()  {
         let location = getCookie("location");
         if (location != "") {
             setCookieValue();
@@ -83,18 +83,32 @@ $(document).ready(function () {
 
     $('body').on('click', '.add-to-cart', function() {
         var product_id = $(this).val().toString();
-        var param = "?product_id=" + product_id;
-        console.log(param);
+        var param = "?product_id=" + product_id + "&action=1";
+        sendAjax(param, "+")
         $.ajax({type: "POST",
-                url: '/add_to_basket' + param,
-                dataType: "text",
-                success: function (result) {
-                    $(".counter").text(result);
-                }
+            url: '/change_basket' + param,
+            dataType: "text",
+            success: function (result) {
+                $(".counter").text(result);
+            }
         });
     });
 
     $("#basket-icon").on('click', function() {
         window.location.href = '/basket';
+    });
+
+    $('body').on('click', '.bi-trash-fill', function()
+    {
+        var product_id = $(this).val().toString();
+        var param = "?product_id=" + product_id;
+        $.ajax({type: "POST",
+            url: '/remove_from_basket' + param,
+            dataType: "text",
+            success: function (result) {
+                var $content = $('table.table', $(result));
+                $('table.table').html($content);
+            }
+        });
     });
 });

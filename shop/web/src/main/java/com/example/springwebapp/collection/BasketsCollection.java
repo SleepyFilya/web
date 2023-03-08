@@ -17,12 +17,17 @@ public class BasketsCollection
 
     public Map<HttpSession, Basket> getBasketMap() { return basketMap; }
 
-    public void addProductToBasket(HttpSession session, Product product)
+    public void plusOneProductToBasket(HttpSession session, Product product)
     {
         if(!(basketMap.containsKey(session)))
             basketMap.put(session, new Basket());
 
-        basketMap.get(session).addProductToMap(product);
+        basketMap.get(session).plusProductToMap(product);
+    }
+
+    public void minusOneProductToBasket(HttpSession session, Product product)
+    {
+        basketMap.get(session).minusProductFromMap(product);
     }
 
     public void removeProductFromBasket(HttpSession session, Product product)
@@ -32,6 +37,9 @@ public class BasketsCollection
 
     public int countProductsInBasket(HttpSession session)
     {
-        return basketMap.get(session).countBasket();
+        if(basketMap.containsKey(session))
+            return basketMap.get(session).countBasket();
+        else
+            return 0;
     }
 }

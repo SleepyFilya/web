@@ -3,16 +3,53 @@ jQuery(($) => {
     // Уменьшаем на 1
     $(document).on("click", ".input-number-minus", function () {
         let total = $(this).next();
-        if (total.val() > 0) {
-            total.val(+total.val() - 1);
-        }
+        var product_id = $(this).val().toString();
+        var param = "?product_id=" + product_id + "&action=0";
+        // sendAjax(param, "-");
+        $.ajax({type: "POST",
+            url: '/change_basket' + param,
+            dataType: "text",
+            success: function (result) {
+                $(".counter").text(result);
+                if (total.val() > 0)
+                    total.val(+total.val() - 1);
+            }
+        });
     });
 
     // Увеличиваем на 1
     $(document).on("click", ".input-number-plus", function () {
         let total = $(this).prev();
-        total.val(+total.val() + 1);
+        var product_id = $(this).val().toString();
+        var param = "?product_id=" + product_id + "&action=1";
+        // sendAjax(param, "+");
+        $.ajax({type: "POST",
+            url: '/change_basket' + param,
+            dataType: "text",
+            success: function (result) {
+                $(".counter").text(result);
+                total.val(+total.val() + 1);
+            }
+        });
     });
+
+    // var sendAjax = function (param, action)
+    // {
+    //     $.ajax({type: "POST",
+    //         url: '/add_to_basket' + param,
+    //         dataType: "text",
+    //         success: function (result) {
+    //             $(".counter").text(result);
+    //             if(action == "+")
+    //                 total.val(+total.val() + 1);
+    //             if(action == "-")
+    //             {
+    //                 if (total.val() > 0)
+    //                     total.val(+total.val() - 1);
+    //             }
+    //         }
+    //     });
+    // }
 
     // Запрещаем ввод текста
     document.querySelectorAll('.input-number-input').forEach(function (el) {

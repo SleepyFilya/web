@@ -102,13 +102,10 @@ $(document).ready(function () {
     {
         var product_id = $(this).val().toString();
         var param = "?product_id=" + product_id;
-        $.ajax({type: "POST",
-            url: '/remove_from_basket' + param,
-            dataType: "text",
-            success: function (result) {
-                var $content = $('table.table', $(result));
+        $.ajax({url: '/remove_from_basket' + param})
+            .done(function (data) {
+                var $content = $('table.table', $(data));
                 $('table.table').html($content);
-            }
-        });
+            });
     });
 });

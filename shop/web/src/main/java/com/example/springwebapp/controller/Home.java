@@ -18,7 +18,7 @@ public class Home
     private ProductsCollection productsCollection = new ProductsCollection();
 
     @GetMapping("/products")
-    public String getAll(Model model,
+    public String getAll(Model model, HttpSession session,
                          @RequestParam(required = false, name="keyword") String keyword,
                          @RequestParam(required = false, name="sort") String sort)
     {
@@ -65,6 +65,7 @@ public class Home
         model.addAttribute("goodsCounter", goodsCounter);
         return goodsCounter;
     }
+
 }
 
 

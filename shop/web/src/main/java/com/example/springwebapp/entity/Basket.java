@@ -26,8 +26,6 @@ public class Basket
             productMap.put(product, productMap.get(product) + 1);
         else
             productMap.put(product, 1);
-
-        productMap.forEach((key, value) -> System.out.println("[Key] : " + key + " [Value] : " + value));
     }
 
     public void removeProductFromMap(Product product) { productMap.remove(product); }

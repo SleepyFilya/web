@@ -3,11 +3,11 @@ import com.example.springwebapp.entity.Product;
 
 import java.util.*;
 
-public class ProductCollection
+public class ProductsCollection
 {
     private Map<Integer, Product> productMap;
 
-    public ProductCollection()
+    public ProductsCollection()
     {
         productMap = new HashMap<>();
 
@@ -64,6 +64,4 @@ public class ProductCollection
 
         return productList;
     }
-
-
 }

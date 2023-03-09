@@ -75,7 +75,6 @@ public class Home
     }
 
     @RequestMapping("/remove_from_basket")
-    @ResponseBody
     public String removeFromBasket(Model model, HttpSession session,
                                       @RequestParam(name="product_id") String product_id)
     {

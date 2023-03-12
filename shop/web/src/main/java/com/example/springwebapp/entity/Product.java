@@ -2,20 +2,14 @@ package com.example.springwebapp.entity;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "products")
 public class Product
 {
-    @Id
     private Integer id;
 
-    @Column(length = 128, nullable = false)
     private String title;
 
-    @Column(length = 256)
     private String description;
 
-    @Column(nullable = false)
     private int price;
 
     public Product() {}

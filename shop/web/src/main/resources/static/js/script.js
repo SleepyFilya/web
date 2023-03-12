@@ -103,7 +103,19 @@ $(document).ready(function () {
         var product_id = $(this).val().toString();
         var param = "?product_id=" + product_id;
         $.ajax({url: '/remove_from_basket' + param})
-            .done(function (data) {
+            .done(function (data)
+            {
+                var $content = $('table.table', $(data));
+                $('table.table').html($content);
+            });
+    });
+
+    $('body').on('click', '#createOrder', function()
+    {
+        var param = "?location=" + getCookie("location");
+        $.ajax({url: '/create_order' + param})
+            .done(function (data)
+            {
                 var $content = $('table.table', $(data));
                 $('table.table').html($content);
             });

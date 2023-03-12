@@ -1,8 +1,13 @@
 package com.example.springwebapp.controller;
+import java.time.Instant;
 import java.util.*;
 
+import com.example.springwebapp.entity.Basket;
+import com.example.springwebapp.model.BasketModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.example.springwebapp.collection.BasketsCollection;
 import com.example.springwebapp.collection.ProductsCollection;
+import com.example.springwebapp.repository.BasketRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +19,9 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class Home
 {
+//    @Autowired
+    BasketRepository basketRepository;
+
     private BasketsCollection basketsCollection = new BasketsCollection();
     private ProductsCollection productsCollection = new ProductsCollection();
 
@@ -91,6 +99,36 @@ public class Home
             model.addAttribute("counts", productCounts);
             model.addAttribute("goodsCounter", goodsCounter);
         } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "basket";
+    }
+
+    @RequestMapping("/create_order")
+    public String createOrderFromBasket(Model model, HttpSession session,
+                                        @RequestParam(name="location") String location)
+    {
+        try
+        {
+            Basket currentBasket = basketsCollection.getBasketMap().get(session);
+            BasketModel basketEntry = new BasketModel(session.toString(),
+                                                      currentBasket.mapToString(),
+                                                      Date.from(Instant.now()),
+                                                      location);
+
+            System.out.println(basketEntry.getBasketId() + "   " + session + "   "
+                    + currentBasket.mapToString() + "   " + Date.from(Instant.now()) + "   " + location);
+
+            basketRepository.save(basketEntry);
+
+            //очистка корзины и отправка пустой таблицы в html
+            basketsCollection.removeAllFromBasket(session);
+            List<Product> products = new ArrayList<>();
+            model.addAttribute("products", products);
+        }
+        catch (Exception e)
+        {
             model.addAttribute("message", e.getMessage());
         }
 

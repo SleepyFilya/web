@@ -1,20 +1,15 @@
 package com.example.springwebapp.entity;
 
+import javax.persistence.*;
 import java.util.*;
 
 public class Basket
 {
     private Map<Product, Integer> productMap;
 
-    private String location;
-
-    private Calendar orderTime;
-
     public Basket()
     {
         productMap = new HashMap<>();
-        location = "someCity";
-        orderTime = new GregorianCalendar(2023, 3, 8);
     }
 
     public Map<Product, Integer> getProductMap() { return productMap; }
@@ -35,14 +30,7 @@ public class Basket
 
     public void removeProductFromMap(Product product) { productMap.remove(product); }
 
-    public String getLocation() { return location; }
-
-    public void setLocation(String location) { this.location = location; }
-
-    public Calendar getOrderTime() { return orderTime; }
-
-    public void setOrderTime(Calendar orderTime) { this.orderTime = orderTime; }
-
+    public void removeAllFromMap() { productMap.clear(); }
 
     public int countBasket()
     {
@@ -52,5 +40,16 @@ public class Basket
             count += Integer.parseInt(value.toString());
 
         return count;
+    }
+
+    public String mapToString()
+    {
+        StringBuilder mapAsString = new StringBuilder("{");
+        for (Product key : productMap.keySet()) {
+            mapAsString.append(key + "=" + productMap.get(key) + ";");
+        }
+        mapAsString.delete(mapAsString.length()-1, mapAsString.length()).append("}");
+
+        return mapAsString.toString();
     }
 }

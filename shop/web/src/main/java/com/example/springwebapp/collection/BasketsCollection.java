@@ -35,6 +35,11 @@ public class BasketsCollection
         basketMap.get(session).removeProductFromMap(product);
     }
 
+    public void removeAllFromBasket(HttpSession session)
+    {
+        basketMap.get(session).removeAllFromMap();
+    }
+
     public int countProductsInBasket(HttpSession session)
     {
         if(basketMap.containsKey(session))

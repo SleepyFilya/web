@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.springwebapp.entity.Product;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class Home
 {
-//    @Autowired
+    @Autowired
     BasketRepository basketRepository;
 
     private BasketsCollection basketsCollection = new BasketsCollection();
@@ -90,16 +91,6 @@ public class Home
         return data;
     }
 
-//    @GetMapping("/get_basket_total_cost")
-//    @ResponseBody
-//    public String basketTotalCost(Model model, HttpSession session)
-//    {
-//        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
-//        model.addAttribute("totalCost", totalCost);
-//
-//        return totalCost;
-//    }
-
     @RequestMapping("/remove_from_basket")
     public String removeFromBasket(Model model, HttpSession session,
                                       @RequestParam(name="product_id") String product_id)
@@ -122,17 +113,16 @@ public class Home
         return "basket";
     }
 
-    @RequestMapping("/create_order")
+    @GetMapping("/create_order")
     public String createOrderFromBasket(Model model, HttpSession session,
-                                        @RequestParam(name="location") String location)
+                                        @CookieValue(value = "location", required = false) Cookie location)
     {
         try
         {
             Basket currentBasket = basketsCollection.getBasketMap().get(session);
             BasketModel basketEntry = new BasketModel(session.toString(),
                                                       currentBasket.mapToString(),
-                                                      Date.from(Instant.now()),
-                                                      location);
+                                                      Date.from(Instant.now()), location.getValue());
 
             System.out.println(basketEntry.getBasketId() + "   " + session + "   "
                     + currentBasket.mapToString() + "   " + Date.from(Instant.now()) + "   " + location);

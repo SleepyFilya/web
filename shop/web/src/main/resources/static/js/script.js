@@ -113,8 +113,7 @@ $(document).ready(function () {
 
     $('body').on('click', '#createOrder', function()
     {
-        var param = "?location=" + getCookie("location");
-        $.ajax({url: '/create_order' + param})
+        $.ajax({url: '/create_order'})
             .done(function (data)
             {
                 var $content = $('table.table', $(data));

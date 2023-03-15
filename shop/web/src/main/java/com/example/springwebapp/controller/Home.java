@@ -57,6 +57,9 @@ public class Home
             List<Product> products = new ArrayList<>(productsMap.keySet());
             List<Integer> productCounts = new ArrayList<>(productsMap.values());
 
+            String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+
+            model.addAttribute("totalCost", totalCost);
             model.addAttribute("products", products);
             model.addAttribute("counts", productCounts);
         } catch (Exception e) {
@@ -77,10 +80,25 @@ public class Home
         if("0".equals(action))
             basketsCollection.minusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
 
+        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+
         String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
-        model.addAttribute("goodsCounter", goodsCounter);
-        return goodsCounter;
+        String data = goodsCounter + " " + totalCost;
+
+        model.addAttribute("array", data);
+
+        return data;
     }
+
+//    @GetMapping("/get_basket_total_cost")
+//    @ResponseBody
+//    public String basketTotalCost(Model model, HttpSession session)
+//    {
+//        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+//        model.addAttribute("totalCost", totalCost);
+//
+//        return totalCost;
+//    }
 
     @RequestMapping("/remove_from_basket")
     public String removeFromBasket(Model model, HttpSession session,
@@ -93,7 +111,6 @@ public class Home
             List<Product> products = new ArrayList<>(productsMap.keySet());
             List<Integer> productCounts = new ArrayList<>(productsMap.values());
             String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
-
 
             model.addAttribute("products", products);
             model.addAttribute("counts", productCounts);

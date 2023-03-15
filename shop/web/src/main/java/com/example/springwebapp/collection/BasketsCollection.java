@@ -47,4 +47,12 @@ public class BasketsCollection
         else
             return 0;
     }
+
+    public int getBasketTotalCost(HttpSession session)
+    {
+        if(basketMap.containsKey(session))
+            return basketMap.get(session).basketTotalCost();
+        else
+            return 0;
+    }
 }

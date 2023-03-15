@@ -52,4 +52,15 @@ public class Basket
 
         return mapAsString.toString();
     }
+
+    public int basketTotalCost()
+    {
+        int cost = 0;
+
+        for(Product product : productMap.keySet())
+            cost += product.getPrice() * Integer.parseInt(productMap.get(product).toString());
+
+        return cost;
+    }
+
 }

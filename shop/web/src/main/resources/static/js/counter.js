@@ -10,7 +10,10 @@ jQuery(($) => {
             url: '/change_basket' + param,
             dataType: "text",
             success: function (result) {
-                $(".counter").text(result);
+                // $(".counter").text(result);
+                let array = result.split(' ');
+                $(".counter").text(array[0]);
+                $("#total-price").text(array[1]);
                 if (total.val() > 0)
                     total.val(+total.val() - 1);
             }
@@ -27,7 +30,12 @@ jQuery(($) => {
             url: '/change_basket' + param,
             dataType: "text",
             success: function (result) {
-                $(".counter").text(result);
+                let array = result.split(' ');
+                // $(".counter").text(result);
+                console.log(array[0]);
+                $(".counter").text(array[0]);
+                $("#total-price").text(array[1]);
+
                 total.val(+total.val() + 1);
             }
         });

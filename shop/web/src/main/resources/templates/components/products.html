@@ -14,7 +14,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="product : ${products}">
+                <tr th:each="product : ${products}" class="product-item">
 
                     <td style="text-align: center"><img width="200px" src="https://sun9-52.userapi.com/impg/6zz8cKmQxMIqMqA5uKLv5w55opf9vghesScQFQ/zVG8EndkmlA.jpg?size=1280x854&quality=96&sign=aad8ad4a8302d84049e0e37ccbacd9be&type=album"></td>
                     <td>[[${product.title}]]</td>

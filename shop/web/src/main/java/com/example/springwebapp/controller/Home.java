@@ -101,11 +101,20 @@ public class Home
             Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(session).getProductMap();
             List<Product> products = new ArrayList<>(productsMap.keySet());
             List<Integer> productCounts = new ArrayList<>(productsMap.values());
+
+
             String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
+
+
+            String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+
+            model.addAttribute("totalCost", totalCost);
+
 
             model.addAttribute("products", products);
             model.addAttribute("counts", productCounts);
             model.addAttribute("goodsCounter", goodsCounter);
+
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }

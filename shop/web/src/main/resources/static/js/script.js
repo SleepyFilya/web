@@ -1,6 +1,8 @@
+//import  checkAndDisable from './counter';
+
 $(document).ready(function () {
     checkCookie();
-
+    checkAndDisable();
     function setCookie(cname, cvalue, exdays) {
         const d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -123,8 +125,26 @@ $(document).ready(function () {
     });
 
     $("#basket-icon").on('click', function () {
+        checkAndDisable();
         window.location.href = '/basket';
     });
+
+    function checkAndDisable() {
+        let btn = document.querySelectorAll('.input-number-minus');
+        let input = document.querySelectorAll('.input-number-input');
+        console.log(btn);
+        console.log(input);
+        for (var i = 0; i < btn.length; i++) {
+            console.log(i);
+            $(btn[i]).removeAttr('disabled');
+            if ($(input[i]).val() == 0) {
+                $(btn[i]).attr('disabled', true);
+
+            }
+        }
+
+
+    }
 
     $('body').on('click', '.bi-trash-fill', function () {
         var product_id = $(this).val().toString();
@@ -133,6 +153,7 @@ $(document).ready(function () {
             .done(function (data) {
                 var $content = $('table.table', $(data));
                 $('table.table').html($content);
+                checkAndDisable();
             });
 
     });

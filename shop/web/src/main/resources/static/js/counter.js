@@ -23,8 +23,9 @@ jQuery(($) => {
                     total.val(+total.val() - 1);
 
                 //Отключение видимости "-"
-                if (total.val() == 0)
-                    $this.attr('disabled', true);
+                // if (total.val() == 0)
+                //     $this.attr('disabled', true);
+                checkAndDisable();
             }
         });
     });
@@ -35,6 +36,8 @@ jQuery(($) => {
         let minus = total.prev();
         var product_id = $(this).val().toString();
         var param = "?product_id=" + product_id + "&action=1";
+
+
 
         // sendAjax(param, "+");
         $.ajax({
@@ -51,30 +54,31 @@ jQuery(($) => {
                 total.val(+total.val() + 1);
 
                 //Видимость "-"
-                if(total.val()>0)
-                    minus.attr('disabled', false);
+                // if(total.val()>0)
+                //     minus.attr('disabled', false);
+                checkAndDisable();
 
             }
         });
     });
 
-    // var sendAjax = function (param, action)
-    // {
-    //     $.ajax({type: "POST",
-    //         url: '/add_to_basket' + param,
-    //         dataType: "text",
-    //         success: function (result) {
-    //             $(".counter").text(result);
-    //             if(action == "+")
-    //                 total.val(+total.val() + 1);
-    //             if(action == "-")
-    //             {
-    //                 if (total.val() > 0)
-    //                     total.val(+total.val() - 1);
-    //             }
-    //         }
-    //     });
-    // }
+
+    function checkAndDisable() {
+        let btn = document.querySelectorAll('.input-number-minus');
+        let input = document.querySelectorAll('.input-number-input');
+        console.log(btn);
+        console.log(input);
+        for (var i = 0; i < btn.length; i++) {
+            console.log(i);
+            $(btn[i]).removeAttr('disabled');
+            if ($(input[i]).val() == 0) {
+                $(btn[i]).attr('disabled', true);
+
+            }
+        }
+
+
+    }
 
     // Запрещаем ввод текста
     document.querySelectorAll('.input-number-input').forEach(function (el) {

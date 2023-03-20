@@ -15,7 +15,7 @@
                         <td id="count">
                             <div class="input-number">
                                 <button type="button" class="input-number-minus btn btn-dark" th:value="${product.id}">-</button>
-                                <input class="input-number-input" type="text" pattern="^[0-9]+$" value="1">
+                                <input class="input-number-input" type="text" pattern="^[0-9]+$" th:value="${counts.get(productStat.index)}">
                                 <button type="button" class="input-number-plus btn btn-dark" th:value="${product.id}">+</button>
                             </div>
                         </td>

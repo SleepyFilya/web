@@ -82,7 +82,7 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.add-to-cart', function () {
-
+        // var $this = $(this);
         var product_id = $(this).val().toString();
         var param = "?product_id=" + product_id + "&action=1";
 
@@ -134,7 +134,9 @@ $(document).ready(function () {
                 var $content = $('table.table', $(data));
                 $('table.table').html($content);
             });
+
     });
+
 
     $('body').on('click', '#createOrder', function () {
         $.ajax({url: '/create_order'})

@@ -2,11 +2,16 @@ jQuery(($) => {
 
     // Уменьшаем на 1
     $(document).on("click", ".input-number-minus", function () {
+        //Конкретно нажатая кнопка
+        var $this = $(this);
+
         let total = $(this).next();
         var product_id = $(this).val().toString();
         var param = "?product_id=" + product_id + "&action=0";
+
         // sendAjax(param, "-");
-        $.ajax({type: "POST",
+        $.ajax({
+            type: "POST",
             url: '/change_basket' + param,
             dataType: "text",
             success: function (result) {
@@ -16,6 +21,10 @@ jQuery(($) => {
                 $("#total-price").text(array[1]);
                 if (total.val() > 0)
                     total.val(+total.val() - 1);
+
+                //Отключение видимости "-"
+                if (total.val() == 0)
+                    $this.attr('disabled', true);
             }
         });
     });
@@ -23,10 +32,13 @@ jQuery(($) => {
     // Увеличиваем на 1
     $(document).on("click", ".input-number-plus", function () {
         let total = $(this).prev();
+        let minus = total.prev();
         var product_id = $(this).val().toString();
         var param = "?product_id=" + product_id + "&action=1";
+
         // sendAjax(param, "+");
-        $.ajax({type: "POST",
+        $.ajax({
+            type: "POST",
             url: '/change_basket' + param,
             dataType: "text",
             success: function (result) {
@@ -37,6 +49,11 @@ jQuery(($) => {
                 $("#total-price").text(array[1]);
 
                 total.val(+total.val() + 1);
+
+                //Видимость "-"
+                if(total.val()>0)
+                    minus.attr('disabled', false);
+
             }
         });
     });

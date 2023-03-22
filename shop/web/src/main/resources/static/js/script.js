@@ -155,7 +155,15 @@ $(document).ready(function () {
                 $('table.table').html($content);
                 checkAndDisable();
             });
-
+        $.ajax({
+            type: "GET",
+            url: '/get_total_cost',
+            dataType: "text",
+            success: function (result) {
+                console.log(result);
+                $("#total-price").text(result);
+            }
+        });
     });
 
 
@@ -165,5 +173,14 @@ $(document).ready(function () {
                 var $content = $('table.table', $(data));
                 $('table.table').html($content);
             });
+        // $.ajax({
+        //     type: "GET",
+        //     url: '/get_total_cost',
+        //     dataType: "text",
+        //     success: function (result) {
+        //         console.log(result);
+                $("#total-price").text(0);
+        //     }
+        // });
     });
 });

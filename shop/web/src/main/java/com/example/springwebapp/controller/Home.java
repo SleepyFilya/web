@@ -106,6 +106,8 @@ public class Home
 
             String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
 
+            System.out.println("TOTALCOST: " + totalCost);
+
             model.addAttribute("totalCost", totalCost);
             model.addAttribute("products", products);
             model.addAttribute("counts", productCounts);
@@ -137,6 +139,8 @@ public class Home
 
             String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
 
+            System.out.println("TOTALCOST: " + totalCost);
+
             model.addAttribute("totalCost", totalCost);
             model.addAttribute("products", products);
         }
@@ -146,6 +150,17 @@ public class Home
         }
 
         return "basket";
+    }
+
+    @RequestMapping("/get_total_cost")
+    @ResponseBody
+    public String basketTotalCost(Model model, HttpSession session)
+    {
+        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+
+        model.addAttribute("array", totalCost);
+
+        return totalCost;
     }
 }
 

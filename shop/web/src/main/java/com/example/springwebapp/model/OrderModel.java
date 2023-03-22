@@ -1,12 +1,11 @@
 package com.example.springwebapp.model;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
 @Table(name = "baskets")
-public class BasketModel
+public class OrderModel
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,15 +23,14 @@ public class BasketModel
     @Column(name = "location", length = 100, nullable = false)
     private String location;
 
-    public BasketModel() { }
+    public OrderModel() { }
 
     public Integer getBasketId() {
         return basketId;
     }
 
-    public BasketModel(/*Integer basketId,*/ String session, String orderList, Date orderTime, String location)
+    public OrderModel(String session, String orderList, Date orderTime, String location)
     {
-//        this.basketId = basketId;
         this.session = session;
         this.orderList = orderList;
         this.orderTime = orderTime;

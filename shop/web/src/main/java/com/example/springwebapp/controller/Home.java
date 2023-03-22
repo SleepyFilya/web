@@ -147,6 +147,17 @@ public class Home
 
         return "basket";
     }
+
+    @RequestMapping("/get_total_cost")
+    @ResponseBody
+    public String basketTotalCost(Model model, HttpSession session)
+    {
+        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+
+        model.addAttribute("array", totalCost);
+
+        return totalCost;
+    }
 }
 
 

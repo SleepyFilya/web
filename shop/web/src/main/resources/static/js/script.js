@@ -151,36 +151,28 @@ $(document).ready(function () {
         var param = "?product_id=" + product_id;
         $.ajax({url: '/remove_from_basket' + param})
             .done(function (data) {
+                $.ajax({
+                    type: "GET",
+                    url: '/get_total_cost',
+                    dataType: "text",
+                    success: function (result) {
+                        $("#total-price").text(result);
+                    }
+                });
+
                 var $content = $('table.table', $(data));
                 $('table.table').html($content);
                 checkAndDisable();
             });
-        $.ajax({
-            type: "GET",
-            url: '/get_total_cost',
-            dataType: "text",
-            success: function (result) {
-                console.log(result);
-                $("#total-price").text(result);
-            }
-        });
     });
 
 
     $('body').on('click', '#createOrder', function () {
         $.ajax({url: '/create_order'})
             .done(function (data) {
+                $("#total-price").text(0);
                 var $content = $('table.table', $(data));
                 $('table.table').html($content);
             });
-        // $.ajax({
-        //     type: "GET",
-        //     url: '/get_total_cost',
-        //     dataType: "text",
-        //     success: function (result) {
-        //         console.log(result);
-                $("#total-price").text(0);
-        //     }
-        // });
     });
 });

@@ -106,8 +106,6 @@ public class Home
 
             String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
 
-            System.out.println("TOTALCOST: " + totalCost);
-
             model.addAttribute("totalCost", totalCost);
             model.addAttribute("products", products);
             model.addAttribute("counts", productCounts);
@@ -138,8 +136,6 @@ public class Home
             List<Product> products = new ArrayList<>();
 
             String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
-
-            System.out.println("TOTALCOST: " + totalCost);
 
             model.addAttribute("totalCost", totalCost);
             model.addAttribute("products", products);

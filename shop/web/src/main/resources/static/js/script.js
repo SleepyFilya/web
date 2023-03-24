@@ -114,7 +114,7 @@ $(document).ready(function () {
                     .appendTo("body")
                     .animate({
                         opacity: 0.05,
-                        left: bascket.offset()['left'],
+                        left: bascket.offset()['left'], //!!!!!
                         top: bascket.offset()['top'],
                         width: 20
                     }, 1000, function () {

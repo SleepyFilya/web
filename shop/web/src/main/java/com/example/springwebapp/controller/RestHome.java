@@ -15,7 +15,7 @@ import javax.servlet.http.*;
 import java.time.Instant;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class RestHome {
 
@@ -48,10 +48,11 @@ public class RestHome {
         {
             JSONObject tmp = new JSONObject();
             tmp.put("name", product.getTitle());
+            tmp.put("image", product.getImageLink());
             tmp.put("description", product.getDescription());
             tmp.put("price", product.getPrice());
 
-            result.put("product"+product.getId(), tmp);
+            result.put("product_"+product.getId(), tmp);
         }
 
         //что делать с счетиком товаров?
@@ -81,11 +82,12 @@ public class RestHome {
         {
             JSONObject tmp = new JSONObject();
             tmp.put("name", product.getTitle());
+            tmp.put("image", product.getImageLink());
             tmp.put("description", product.getDescription());
             tmp.put("price", product.getPrice());
             tmp.put("count", productCounts.get(products.indexOf(product)));
 
-            result.put("product"+product.getId(), tmp);
+            result.put("product_"+product.getId(), tmp);
         }
 
         //как отправлять totalCost? отдельный метод или забросить в json, а там  уже распарсится?
@@ -142,11 +144,12 @@ public class RestHome {
         {
             JSONObject tmp = new JSONObject();
             tmp.put("name", product.getTitle());
+            tmp.put("image", product.getImageLink());
             tmp.put("description", product.getDescription());
             tmp.put("price", product.getPrice());
             tmp.put("count", productCounts.get(products.indexOf(product)));
 
-            result.put("product"+product.getId(), tmp);
+            result.put("product_"+product.getId(), tmp);
         }
 
         //как отправлять totalCost и счетчик товаров? отдельный метод или забросить в json, а там  уже распарсится?

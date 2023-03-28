@@ -8,15 +8,18 @@ public class Product
 
     private String title;
 
+    private String imageLink;
+
     private String description;
 
     private int price;
 
     public Product() {}
 
-    public Product(Integer id, String title, String description, int price) {
+    public Product(Integer id, String title, String imageLink, String description, int price) {
         this.id = id;
         this.title = title;
+        this.imageLink = imageLink;
         this.description = description;
         this.price = price;
     }
@@ -36,6 +39,10 @@ public class Product
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getImageLink() { return imageLink; }
+
+    public void setImageLink(String imageLink) { this.imageLink = imageLink; }
 
     public String getDescription() {
         return description;

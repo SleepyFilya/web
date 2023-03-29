@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Catalog } from "./pages/Catalog";
 import { Basket } from "./pages/Basket";
+import Modal from "./components/Modal";
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +16,10 @@ class App extends React.Component {
     this.state = {
         /* Orders-массив для корзины */
       orders: [],
-      products: [
+      products:[],
+      isLoaded:false,
+      error: 0
+      /* products: [
         {
           id: 1,
           title: "Корзина для рыбы",
@@ -65,24 +69,28 @@ class App extends React.Component {
           description: "Изделие из ивового прута",
           price: "2100.00",
         },
-      ],
+      ], */
     };
+
     this.addToOrder = this.addToOrder.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
     
   }
+
+  
   render() {
+   
     return (
       <>
         <Router>
           <Navibar orders={this.state.orders} onDelete={this.deleteOrder}/>
-
+          
           <Routes>
             <Route exact path="/" element={<Catalog products={this.state.products} onAdd={this.addToOrder} />} />
             <Route path="/Basket" element={<Basket  orders={this.state.orders} onDelete={this.deleteOrder}/>} />
           </Routes>
         </Router>
-
+        
         <Footer />
       </>
     );

@@ -14,14 +14,25 @@ public class Product
 
     private int price;
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    private int count;
+
     public Product() {}
 
-    public Product(Integer id, String title, String imageLink, String description, int price) {
+    public Product(Integer id, String title, String imageLink, String description, int price, int count) {
         this.id = id;
         this.title = title;
         this.imageLink = imageLink;
         this.description = description;
         this.price = price;
+        this.count = count;
     }
 
     public Integer getId() {

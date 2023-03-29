@@ -22,13 +22,13 @@ public class ProductsCollection
 //        productMap.put(9, new Product(9, "Honey basket #9", "Cool honey basket", 200));
 //        productMap.put(10, new Product(10, "Honey basket #10", "Cool honey basket", 100));
 
-        productMap.put(1, new Product(1, "Корзина для рыбы", "рыба_8.jpg", "Изделие из ивового прута", 2000));
-        productMap.put(2, new Product(2, "Корзина для грибов", "грибы_1.jpg", "Изделие из ивового прута", 1500));
-        productMap.put(3, new Product(3, "Корзина для рыбы", "рыба_9.jpg", "Изделие из ивового прута", 1600));
-        productMap.put(4, new Product(4, "Корзина для пикника", "пикник_3.jpg", "Изделие из ивового прута", 2500));
-        productMap.put(5, new Product(5, "Дровница", "дровница.jpg", "Изделие из ивового прута", 3000));
-        productMap.put(6, new Product(6, "Фруктовница", "фруктовница.jpg", "Изделие из ивового прута", 700));
-        productMap.put(7, new Product(7, "Короб для выпечки",  "хлеб.jpg", "Изделие из ивового прута", 2100));
+        productMap.put(1, new Product(1, "Корзина для рыбы", "рыба_8.jpg", "Изделие из ивового прута", 2000, 0));
+        productMap.put(2, new Product(2, "Корзина для грибов", "грибы_1.jpg", "Изделие из ивового прута", 1500, 0));
+        productMap.put(3, new Product(3, "Корзина для рыбы", "рыба_9.jpg", "Изделие из ивового прута", 1600, 0));
+        productMap.put(4, new Product(4, "Корзина для пикника", "пикник_3.jpg", "Изделие из ивового прута", 2500, 0));
+        productMap.put(5, new Product(5, "Дровница", "дровница.jpg", "Изделие из ивового прута", 3000, 0));
+        productMap.put(6, new Product(6, "Фруктовница", "фруктовница.jpg", "Изделие из ивового прута", 700, 0));
+        productMap.put(7, new Product(7, "Короб для выпечки",  "хлеб.jpg", "Изделие из ивового прута", 2100, 0));
     };
 
     public Map<Integer, Product> getProductMap() { return productMap; }

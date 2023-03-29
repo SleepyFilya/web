@@ -4,9 +4,11 @@ import com.example.springwebapp.collection.BasketsCollection;
 import com.example.springwebapp.collection.ProductsCollection;
 import com.example.springwebapp.entity.Basket;
 import com.example.springwebapp.entity.Product;
+import com.example.springwebapp.jsonModel.BasketDto;
 import com.example.springwebapp.model.OrderModel;
 import com.example.springwebapp.repository.OrderRepository;
 import org.json.simple.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +26,14 @@ public class RestHome {
 
     private BasketsCollection basketsCollection = new BasketsCollection();
     private ProductsCollection productsCollection = new ProductsCollection();
+    private ModelMapper modelMapper;
 
     @GetMapping("/products")
-    public JSONObject getAll(Model model, HttpSession session,
+    public BasketDto getAll(Model model, HttpSession session,
                          @RequestParam(required = false, name="keyword") String keyword,
                          @RequestParam(required = false, name="sort") String sort)
     {
+
         List<Product> products = productsCollection.getProducts();
 
         if(keyword != null && keyword != "")
@@ -37,62 +41,31 @@ public class RestHome {
         if("SortByUpperPrice".equals(sort) || "SortByLowerPrice".equals(sort))
             products = productsCollection.getSortedByPriceList(products, sort);
 
-        String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
+        int goodsCounter = basketsCollection.countProductsInBasket(session);
 
-//        model.addAttribute("products", products);
-//        model.addAttribute("goodsCounter", goodsCounter);
-
-        JSONObject result = new JSONObject();
+        BasketDto data = new BasketDto();
 
         for(Product product : products)
-        {
-            JSONObject tmp = new JSONObject();
-            tmp.put("name", product.getTitle());
-            tmp.put("image", product.getImageLink());
-            tmp.put("description", product.getDescription());
-            tmp.put("price", product.getPrice());
+            data.setProduct(product.getId(), product.getTitle(), product.getImageLink(), product.getDescription(), product.getPrice(), product.getCount());
+        data.setGoodsCounter(goodsCounter);
 
-            result.put("product_"+product.getId(), tmp);
-        }
-
-        //что делать с счетиком товаров?
-
-        return result;
+        return data;
     }
 
     @GetMapping("/basket")
-    public JSONObject getBasket(Model model, HttpSession session)
-    {
-//        basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt("1")));
-//        basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt("1")));
+    public BasketDto getBasket(Model model, HttpSession session) {
+        basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt("1")));
+        basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt("1")));
 
         Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(session).getProductMap();
         List<Product> products = new ArrayList<>(productsMap.keySet());
         List<Integer> productCounts = new ArrayList<>(productsMap.values());
 
-        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+        int goodsCounter = basketsCollection.countProductsInBasket(session);
 
-//        model.addAttribute("totalCost", totalCost);
-//        model.addAttribute("products", products);
-//        model.addAttribute("counts", productCounts);
+        BasketDto data = convertToDto(products, goodsCounter);
 
-        JSONObject result = new JSONObject();
-
-        for(Product product : products)
-        {
-            JSONObject tmp = new JSONObject();
-            tmp.put("name", product.getTitle());
-            tmp.put("image", product.getImageLink());
-            tmp.put("description", product.getDescription());
-            tmp.put("price", product.getPrice());
-            tmp.put("count", productCounts.get(products.indexOf(product)));
-
-            result.put("product_"+product.getId(), tmp);
-        }
-
-        //как отправлять totalCost? отдельный метод или забросить в json, а там  уже распарсится?
-
-        return result;
+        return data;
     }
 
     @RequestMapping("/change_basket")
@@ -109,18 +82,15 @@ public class RestHome {
         String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
 
         String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
-//        String data = goodsCounter + " " + totalCost;
-//        model.addAttribute("array", data);
+        JSONObject data = new JSONObject();
+        data.put("totalCost", totalCost);
+        data.put("goodsCounter", goodsCounter);
 
-        JSONObject result = new JSONObject();
-        result.put("totalCost", totalCost);
-        result.put("goodsCounter", goodsCounter);
-
-        return result;
+        return data;
     }
 
     @RequestMapping("/remove_from_basket")
-    public JSONObject removeFromBasket(Model model, HttpSession session,
+    public BasketDto removeFromBasket(Model model, HttpSession session,
                                    @RequestParam(name="product_id") String product_id)
     {
         basketsCollection.removeProductFromBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
@@ -129,36 +99,15 @@ public class RestHome {
         List<Product> products = new ArrayList<>(productsMap.keySet());
         List<Integer> productCounts = new ArrayList<>(productsMap.values());
 
-        String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
+        int goodsCounter = basketsCollection.countProductsInBasket(session);
 
-        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+        BasketDto data = convertToDto(products, goodsCounter);
 
-//        model.addAttribute("totalCost", totalCost);
-//        model.addAttribute("products", products);
-//        model.addAttribute("counts", productCounts);
-//        model.addAttribute("goodsCounter", goodsCounter);
-
-        JSONObject result = new JSONObject();
-
-        for(Product product : products)
-        {
-            JSONObject tmp = new JSONObject();
-            tmp.put("name", product.getTitle());
-            tmp.put("image", product.getImageLink());
-            tmp.put("description", product.getDescription());
-            tmp.put("price", product.getPrice());
-            tmp.put("count", productCounts.get(products.indexOf(product)));
-
-            result.put("product_"+product.getId(), tmp);
-        }
-
-        //как отправлять totalCost и счетчик товаров? отдельный метод или забросить в json, а там  уже распарсится?
-
-        return result;
+        return data;
     }
 
     @GetMapping("/create_order")
-    public JSONObject createOrderFromBasket(Model model, HttpSession session,
+    public BasketDto createOrderFromBasket(Model model, HttpSession session,
                                         @CookieValue(value = "location", required = false) Cookie location)
     {
         Basket currentBasket = basketsCollection.getBasketMap().get(session);
@@ -168,20 +117,14 @@ public class RestHome {
 
         orderRepository.save(basketEntry);
 
-        //очистка корзины и отправка пустой таблицы в html
         basketsCollection.removeAllFromBasket(session);
         List<Product> products = new ArrayList<>();
 
-        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+        int goodsCounter = basketsCollection.countProductsInBasket(session);
 
-//        model.addAttribute("totalCost", totalCost);
-//        model.addAttribute("products", products);
+        BasketDto data = convertToDto(products, goodsCounter);
 
-        JSONObject result = new JSONObject();
-
-        //как отправлять totalCost? отдельный метод или забросить в json, а там  уже распарсится?
-
-        return result;
+        return data;
     }
 
     @RequestMapping("/get_total_cost")
@@ -190,11 +133,20 @@ public class RestHome {
     {
         String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
 
-//        model.addAttribute("array", totalCost);
+        JSONObject data = new JSONObject();
+        data.put("totalCost", totalCost);
 
-        JSONObject result = new JSONObject();
-        result.put("totalCost", totalCost);
+        return data;
+    }
 
-        return result;
+    private BasketDto convertToDto(List<Product> products, int goodsCounter)
+    {
+        BasketDto data = new BasketDto();
+
+        for(Product product : products)
+            data.setProduct(product.getId(), product.getTitle(), product.getImageLink(), product.getDescription(), product.getPrice(), product.getCount());
+        data.setGoodsCounter(goodsCounter);
+
+        return data;
     }
 }

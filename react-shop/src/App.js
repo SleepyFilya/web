@@ -8,7 +8,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Catalog } from "./pages/Catalog";
 import { Basket } from "./pages/Basket";
-import Modal from "./components/Modal";
+
+import { CookiesProvider } from 'react-cookie';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class App extends React.Component {
       products:[],
       isLoaded:false,
       error: 0
-      /* products: [
+     /*   products: [
         {
           id: 1,
           title: "Корзина для рыбы",
@@ -69,7 +71,7 @@ class App extends React.Component {
           description: "Изделие из ивового прута",
           price: "2100.00",
         },
-      ], */
+      ],  */
     };
 
     this.addToOrder = this.addToOrder.bind(this);
@@ -83,8 +85,9 @@ class App extends React.Component {
     return (
       <>
         <Router>
+        <CookiesProvider>
           <Navibar orders={this.state.orders} onDelete={this.deleteOrder}/>
-          
+          </CookiesProvider>
           <Routes>
             <Route exact path="/" element={<Catalog products={this.state.products} onAdd={this.addToOrder} />} />
             <Route path="/Basket" element={<Basket  orders={this.state.orders} onDelete={this.deleteOrder}/>} />
@@ -97,16 +100,58 @@ class App extends React.Component {
   }
 
   deleteOrder(id){
-    this.setState({orders:this.state.orders.filter(el=>el.id!==id)})
+    var param = "?product_id=" + id;
+    fetch("http://localhost:8080/remove_from_basket" + param)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          products: result.products
+          
+        });
+      },
+      
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+
+
+    /* this.setState({orders:this.state.orders.filter(el=>el.id!==id)}) */
    }
 
 
   addToOrder(product) {
-    let isInArray = false;
+
+    var param = "?product_id=" + product.id + "&action=1";
+    fetch("http://localhost:8080/change_basket" + param)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          products: result.products
+          
+        });
+      },
+      
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
+
+    /* let isInArray = false;
     this.state.orders.forEach((el) => {
       if (el.id === product.id) isInArray = true;
     });
-    if (!isInArray) this.setState({ orders: [...this.state.orders, product] });
+    if (!isInArray) this.setState({ orders: [...this.state.orders, product] }); */
   }
 }
 

@@ -1,13 +1,92 @@
-import React from "react";
+import React ,{ Component }from "react";
 import {FormControl} from "react-bootstrap";
 import './Find.css';
 
 
-export default function Find() {
+import $ from 'jquery';
 
+function SortByLowerPrice() {
+    /* fetch("http://localhost:8080/products?keyword=Корзина&sort=SortByLowerPrice")
+    .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            products: result.products
+            
+          });
+        },
+        
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      ) */
+  } 
+
+ function SortByUpperPrice() {
+    /* fetch("http://localhost:8080/products?keyword=Корзина&sort=SortByUpperPrice")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            products: result.products
+            
+          });
+        },
+        
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      ) */
+  } 
+
+ 
+export class Find extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+          error: null,
+          isLoaded: false,
+          products: []
+        };
+        this.Search = this.Search.bind(this);
+      }
+
+      /* componentDidMount() {
+      fetch("http://localhost:8080/products?keyword=Дровница")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            products: result.products
+            
+          });
+        },
+        
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+    } */
+    
+
+    render() {
+      
     return (
         <>
-
+        
             <section className="catalog_h" id="find">
                 <div className="container">
                     <div className="row">
@@ -20,19 +99,19 @@ export default function Find() {
                                 <div className="col-md-6 mt-2">
                                     <div className="search">
                                         <i className="fa fa-search"></i>
-                                        <FormControl id="keyword" type="search" name="keyword" required
+                                        <input id="keyword" type="search" name="keyword" 
                                                className="form-control"
                                                placeholder="Поиск"/>
-                                            <button id="mySearch" type="submit" className="btn btn-secondary">Найти
+                                            <button id="mySearch" type="submit" className="btn btn-secondary"  onClick={() => this.Search("no")}>Найти
                                             </button>
                                     </div>
                                 </div>
                                 <div className="col mt-2 filter-button">
-                                    <button id="btnSortByUpperPrice" type="submit" className="btn btn-dark">По
+                                    <button id="btnSortByUpperPrice" type="submit" className="btn btn-dark" onClick={() => this.Search("SortByUpperPrice")} >По
                                         возрастанию цены
                                     </button>
 
-                                    <button id="btnSortByLowerPrice" type="submit" className="btn btn-dark">По убыванию
+                                    <button id="btnSortByLowerPrice" type="submit" className="btn btn-dark" onClick={() => this.Search("SortByLowerPrice")}>По убыванию
                                         цены
                                     </button>
                                 </div>
@@ -41,35 +120,33 @@ export default function Find() {
                     </div>
                 </div>
             </section>
-                {/*<Container>*/}
-                {/*    <Row><h2>Каталог товаров</h2></Row>*/}
-                {/*    <Row className={"Search"}>*/}
-                {/*        <Col sm={6}>*/}
-                {/*            <Form>*/}
-                {/*                <Form.Group className="mb-3" controlId="formBasicEmail">*/}
-
-                {/*                    <Form.Control type="find" placeholder="Поиск"/>*/}
-
-                {/*                </Form.Group>*/}
-
-                {/*            </Form>*/}
-                {/*            <Col sm={2}>*/}
-                {/*                <Button id="mySearch" type="submit" className="btn btn-secondary">Найти</Button>*/}
-
-                {/*            </Col>*/}
-                {/*        </Col>*/}
-                {/*        <Col sm={2}>*/}
-                {/*            <Button id="btnSortByUpperPrice" type="submit" className="btn btn-dark">По возрастанию цены*/}
-                {/*            </Button>*/}
-                {/*        </Col>*/}
-                {/*        <Col sm={2}>*/}
-                {/*            <Button id="btnSortByLowerPrice" type="submit" className="btn btn-dark">По убыванию цены*/}
-                {/*            </Button>*/}
-                {/*        </Col>*/}
-                {/*    </Row>*/}
-                {/*</Container>*/}
-
         </>
     )
-
+    }
+    Search(sort){
+      var keyword = $('#keyword').val();
+      var request = "http://localhost:8080/products?keyword=" + keyword + "&sort=" + sort;
+      fetch(request)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              isLoaded: true,
+              products: result.products
+              
+            });
+          },
+          
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        )
+    }
+    
 }
+
+
+export default Find;

@@ -1,17 +1,57 @@
 import React, { Component } from "react";
-import {FaRubleSign } from 'react-icons/fa'
+import { FaRubleSign } from 'react-icons/fa'
 import { BsFillTrashFill } from "react-icons/bs";
 
 
-
 export class Order extends Component {
-  render() {
-    return (
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      products: []
+    };
+  }
+
+  componentDidMount() {
+    fetch("http://localhost:8080/basket")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            products: result.products
+            
+          });
+        },
         
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  } 
+  render() {
+
+    const error= this.state.error;
+    //const orders = this.state.orders;
+    const isLoaded = this.state.isLoaded;
+    const products = this.state.products;
+    
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+    return (
+
       <div className="item">
-       
-<div class="container pt-4" id="basket">
-          
+
+        <div class="container pt-4" id="basket">
+
           <div class="row gx-5">
             <div class="col-9">
               <div>
@@ -19,14 +59,14 @@ export class Order extends Component {
                   <tbody>
                     <tr>
                       <td className="tdImg">
-                      <img src={"./img/" + this.props.product.img} alt="img" />
+                        <img src={"./img/" + products.imageLink} alt="img" />
                       </td>
                       <td></td>
                       <td id="count">
                         <div class="input-number">
                           <button
                             type="button"
-                            class="input-number-minus btn btn-dark" 
+                            class="input-number-minus btn btn-dark"
                           >
                             -
                           </button>
@@ -45,28 +85,29 @@ export class Order extends Component {
                         </div>
                       </td>
                       <td>
-                      <b>{this.props.product.price}<FaRubleSign/></b>
+                        <b>{products.price}<FaRubleSign /></b>
                       </td>
 
                       <td>
-                      <BsFillTrashFill className="delete-icon" onClick={()=> this.props.onDelete(this.props.product.id)}/>
+                        <BsFillTrashFill className="delete-icon" onClick={() => this.props.onDelete(products.id)} />
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-            
+
           </div>
-            
-          </div>
-          
+
         </div>
 
-        
-        
+      </div>
+
+
+
     );
   }
+}
 }
 
 export default Order;

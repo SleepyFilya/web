@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import "./Products.css";
 import Product from './Product';
 
-
-
 export class Products extends Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      products: []
+    };
+  }
 
   componentDidMount() {
     fetch("http://localhost:8080/products")
@@ -26,11 +31,11 @@ export class Products extends Component {
           });
         }
       )
-  }
+  } 
   
   render() {
     const error= this.state.error;
-    const orders = this.state.orders;
+    //const orders = this.state.orders;
     const isLoaded = this.state.isLoaded;
     const products = this.state.products;
     
@@ -40,14 +45,14 @@ export class Products extends Component {
       return <div>Loading...</div>;
     } else {
 
-
     return (
       <main>
        {products.map(el =>(
+        
         <Product key={el.id} product={el} onAdd={this.props.onAdd}/>
             
         ))}
-        
+      
       </main>
     );
   }}

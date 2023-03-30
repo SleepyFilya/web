@@ -22,11 +22,12 @@ public class Basket
         else
             productMap.put(product, 1);
 
-        product.setCount(product.getCount()+1);
+        product.setCount(product.getCount() + 1);
     }
 
     public void minusProductFromMap(Product product)
     {
+        product.setCount(product.getCount() - 1);
         productMap.put(product, productMap.get(product) - 1);
     }
 

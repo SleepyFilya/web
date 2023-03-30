@@ -54,12 +54,8 @@ public class RestHome {
 
     @GetMapping("/basket")
     public BasketDto getBasket(Model model, HttpSession session) {
-        basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt("1")));
-        basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt("1")));
-
         Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(session).getProductMap();
         List<Product> products = new ArrayList<>(productsMap.keySet());
-        List<Integer> productCounts = new ArrayList<>(productsMap.values());
 
         int goodsCounter = basketsCollection.countProductsInBasket(session);
 

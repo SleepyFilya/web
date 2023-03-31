@@ -107,7 +107,7 @@ class App extends React.Component {
       (result) => {
         this.setState({
           isLoaded: true,
-          products: result.products
+          orders: result.orders
           
         });
       },
@@ -127,14 +127,14 @@ class App extends React.Component {
 
   addToOrder(product) {
 
-    var param = "?product_id=" + product.id + "&action=1";
-    fetch("http://localhost:8080/change_basket" + param)
+    var param = "http://localhost:8080/basket" + "?product_id=" + product.id + "&action=1";
+    fetch(param)
     .then(res => res.json())
     .then(
       (result) => {
         this.setState({
           isLoaded: true,
-          products: result.products
+          orders: result.orders
           
         });
       },

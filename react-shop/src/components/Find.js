@@ -102,16 +102,16 @@ export class Find extends Component {
                                         <input id="keyword" type="search" name="keyword" 
                                                className="form-control"
                                                placeholder="Поиск"/>
-                                            <button id="mySearch" type="submit" className="btn btn-secondary"  onClick={() => this.Search("no")}>Найти
+                                            <button id="mySearch" type="submit" className="btn btn-secondary"  onClick={(e) =>{this.Search("no"); e.preventDefault()} }>Найти
                                             </button>
                                     </div>
                                 </div>
                                 <div className="col mt-2 filter-button">
-                                    <button id="btnSortByUpperPrice" type="submit" className="btn btn-dark" onClick={() => this.Search("SortByUpperPrice")} >По
+                                    <button id="btnSortByUpperPrice" type="submit" className="btn btn-dark" onClick={(e) => {this.Search("SortByUpperPrice"); e.preventDefault()}} >По
                                         возрастанию цены
                                     </button>
 
-                                    <button id="btnSortByLowerPrice" type="submit" className="btn btn-dark" onClick={() => this.Search("SortByLowerPrice")}>По убыванию
+                                    <button id="btnSortByLowerPrice" type="submit" className="btn btn-dark" onClick={(e) => {this.Search("SortByLowerPrice"); e.preventDefault()}}>По убыванию
                                         цены
                                     </button>
                                 </div>
@@ -126,13 +126,18 @@ export class Find extends Component {
     Search(sort){
       var keyword = $('#keyword').val();
       var request = "http://localhost:8080/products?keyword=" + keyword + "&sort=" + sort;
+      
       fetch(request)
+      
         .then(res => res.json())
         .then(
+          
           (result) => {
+            
             this.setState({
               isLoaded: true,
               products: result.products
+              
               
             });
           },
@@ -145,6 +150,7 @@ export class Find extends Component {
           }
         )
     }
+    
     
 }
 

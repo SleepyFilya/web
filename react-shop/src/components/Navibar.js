@@ -95,6 +95,8 @@ export default function NaviBar() {
     setCookie('name', newName, { path: '/' });
   }
 
+
+  
   return (
     <>
       <header className="bg-dark">
@@ -220,7 +222,7 @@ export default function NaviBar() {
                           console.log("МЫ УСТАЛИ! РАБОТАЙ ПОЖАЛУЙСТА!!!!!!!!", city.value);
                           let el = document.getElementById('local');
 
-                          if (typeof el.textContent !== "undefined") {
+                          if (typeof el.textContent !== undefined) {
                             el.textContent = city.value;
                           } else {
                             el.innerText = city.value;
@@ -239,7 +241,7 @@ export default function NaviBar() {
                     if (location !== undefined) {
                       let el = document.getElementById('local');
 
-                      if (typeof el.textContent !== "undefined") {
+                      if (typeof el.textContent !== undefined) {
                         el.textContent = location;
                       } else {
                         el.innerText = location;
@@ -249,6 +251,7 @@ export default function NaviBar() {
                       setShow(true);
                     }
                   }}>
+                    
                     ГОРОД
                   </div>
                 </div>

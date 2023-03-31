@@ -3,16 +3,19 @@ import "./Products.css";
 import Product from './Product';
 
 export class Products extends Component {
+
+
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
+      /* error: null,
       isLoaded: false,
-      products: []
+      products: [] */
     };
   }
 
   componentDidMount() {
+   
     fetch("http://localhost:8080/products")
       .then(res => res.json())
       .then(
@@ -47,6 +50,7 @@ export class Products extends Component {
 
     return (
       <main>
+        
        {products.map(el =>(
         
         <Product key={el.id} product={el} onAdd={this.props.onAdd}/>

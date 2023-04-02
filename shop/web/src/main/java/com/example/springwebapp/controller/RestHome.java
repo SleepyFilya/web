@@ -27,12 +27,19 @@ public class RestHome {
     private BasketsCollection basketsCollection = new BasketsCollection();
     private ProductsCollection productsCollection = new ProductsCollection();
     private ModelMapper modelMapper;
+    private boolean basketFlag = false;
+    private boolean sessionFlag = false;
+    private HttpSession mainSession;
 
     @GetMapping("/products")
     public BasketDto getAll(Model model, HttpSession session,
                          @RequestParam(required = false, name="keyword") String keyword,
                          @RequestParam(required = false, name="sort") String sort)
     {
+        if(!sessionFlag) {
+            mainSession = session;
+            sessionFlag = true;
+        }
 
         List<Product> products = productsCollection.getProducts();
 
@@ -41,7 +48,8 @@ public class RestHome {
         if("SortByUpperPrice".equals(sort) || "SortByLowerPrice".equals(sort))
             products = productsCollection.getSortedByPriceList(products, sort);
 
-        int goodsCounter = basketsCollection.countProductsInBasket(session);
+//        int goodsCounter = basketsCollection.countProductsInBasket(session);
+        int goodsCounter = basketsCollection.countProductsInBasket(mainSession);
 
         BasketDto data = new BasketDto();
 
@@ -54,10 +62,19 @@ public class RestHome {
 
     @GetMapping("/basket")
     public BasketDto getBasket(Model model, HttpSession session) {
-        Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(session).getProductMap();
+
+        Map<Product, Integer> productsMap;
+        if(basketFlag) {
+            productsMap = basketsCollection.getBasketMap().get(mainSession).getProductMap();
+        }
+        else {
+            productsMap = new HashMap<>();
+        }
+
         List<Product> products = new ArrayList<>(productsMap.keySet());
 
-        int goodsCounter = basketsCollection.countProductsInBasket(session);
+//        int goodsCounter = basketsCollection.countProductsInBasket(session);
+        int goodsCounter = basketsCollection.countProductsInBasket(mainSession);
 
         BasketDto data = convertToDto(products, goodsCounter);
 
@@ -70,14 +87,22 @@ public class RestHome {
                                       @RequestParam(name="product_id") String product_id,
                                       @RequestParam(name="action") String action)
     {
-        if("1".equals(action))
-            basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+        System.out.println("basketCounterChange: " + mainSession);
+
+        if("1".equals(action)) {
+            basketFlag = true;
+//            basketsCollection.plusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+            basketsCollection.plusOneProductToBasket(mainSession, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+        }
         if("0".equals(action))
-            basketsCollection.minusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+//            basketsCollection.minusOneProductToBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+            basketsCollection.minusOneProductToBasket(mainSession, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
 
-        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+//        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(mainSession));
 
-        String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
+//        String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(session));
+        String goodsCounter = Integer.toString(basketsCollection.countProductsInBasket(mainSession));
         JSONObject data = new JSONObject();
         data.put("totalCost", totalCost);
         data.put("goodsCounter", goodsCounter);
@@ -89,13 +114,15 @@ public class RestHome {
     public BasketDto removeFromBasket(Model model, HttpSession session,
                                    @RequestParam(name="product_id") String product_id)
     {
-        basketsCollection.removeProductFromBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+//        basketsCollection.removeProductFromBasket(session, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
+        basketsCollection.removeProductFromBasket(mainSession, productsCollection.getProductMap().get(Integer.parseInt(product_id)));
 
-        Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(session).getProductMap();
+//        Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(session).getProductMap();
+        Map<Product, Integer> productsMap = basketsCollection.getBasketMap().get(mainSession).getProductMap();
         List<Product> products = new ArrayList<>(productsMap.keySet());
-        List<Integer> productCounts = new ArrayList<>(productsMap.values());
 
-        int goodsCounter = basketsCollection.countProductsInBasket(session);
+//        int goodsCounter = basketsCollection.countProductsInBasket(session);
+        int goodsCounter = basketsCollection.countProductsInBasket(mainSession);
 
         BasketDto data = convertToDto(products, goodsCounter);
 
@@ -106,17 +133,23 @@ public class RestHome {
     public BasketDto createOrderFromBasket(Model model, HttpSession session,
                                         @CookieValue(value = "location", required = false) Cookie location)
     {
-        Basket currentBasket = basketsCollection.getBasketMap().get(session);
-        OrderModel basketEntry = new OrderModel(session.toString(),
+//        Basket currentBasket = basketsCollection.getBasketMap().get(session);
+        Basket currentBasket = basketsCollection.getBasketMap().get(mainSession);
+//        OrderModel basketEntry = new OrderModel(session.toString(),
+//                currentBasket.mapToString(),
+//                Date.from(Instant.now()), location.getValue());
+        OrderModel basketEntry = new OrderModel(mainSession.toString(),
                 currentBasket.mapToString(),
                 Date.from(Instant.now()), location.getValue());
 
         orderRepository.save(basketEntry);
 
-        basketsCollection.removeAllFromBasket(session);
+//        basketsCollection.removeAllFromBasket(session);
+        basketsCollection.removeAllFromBasket(mainSession);
         List<Product> products = new ArrayList<>();
 
-        int goodsCounter = basketsCollection.countProductsInBasket(session);
+//        int goodsCounter = basketsCollection.countProductsInBasket(session);
+        int goodsCounter = basketsCollection.countProductsInBasket(mainSession);
 
         BasketDto data = convertToDto(products, goodsCounter);
 
@@ -127,7 +160,8 @@ public class RestHome {
     @ResponseBody
     public JSONObject basketTotalCost(Model model, HttpSession session)
     {
-        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+//        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(session));
+        String totalCost = Integer.toString(basketsCollection.getBasketTotalCost(mainSession));
 
         JSONObject data = new JSONObject();
         data.put("totalCost", totalCost);

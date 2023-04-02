@@ -46,9 +46,9 @@ class App extends React.Component {
                 onAdd={this.addToOrder}
                 handleLoad={this.handleLoad}
                 handleSortAndFilter={this.handleSortAndFilter} />} />
-            <Route path="/Basket" element={<Basket 
-                orders={this.state.orders} 
-                onDelete={this.deleteOrder} 
+            <Route path="/Basket" element={<Basket
+                orders={this.state.orders}
+                onDelete={this.deleteOrder}
                 isLoaded={this.state.isLoaded}
                 error={this.state.error}
                 onAdd={this.addToOrder} />} />
@@ -113,7 +113,7 @@ class App extends React.Component {
   }
 
   addToOrder(product) {
-    var param = "http://localhost:8080/basket?product_id=" + product.id + "&action=1";
+    var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=1";
     this.load_basket(param);
 
     /* let isInArray = false;

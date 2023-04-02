@@ -5,20 +5,20 @@ import React, { Component } from "react";
 
 
 export class Catalog extends Component {
-  
+
   render() {
     return (
       <div className="wrapper">
-        <Find />
-        {/* Передача массива в компонент */}
-        <Products products={this.props.products} onAdd={this.props.onAdd}/>
-        
+        <Find handleSortAndFilter={(keyword, sort) => this.props.handleSortAndFilter(keyword, sort)} />
+        <Products
+          products={this.props.products}
+          isLoaded={this.props.isLoaded}
+          error={this.props.error}
+          onAdd={this.props.onAdd}
+          handleLoad={this.props.handleLoad} />
       </div>
     );
   }
-
-
-  
 }
 
 export default Catalog;

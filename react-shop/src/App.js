@@ -16,136 +16,105 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        /* Orders-массив для корзины */
+      /* Orders-массив для корзины */
       orders: [],
-      products:[],
-      isLoaded:false,
+      products: [],
+      isLoaded: false,
       error: 0
-     /*   products: [
-        {
-          id: 1,
-          title: "Корзина для рыбы",
-          img: "рыба_8.jpg",
-          description: "Изделие из ивового прута",
-          price: "2000.00",
-        },
-        {
-          id: 2,
-          title: "Корзина для грибов",
-          img: "грибы_1.jpg",
-          description: "Изделие из ивового прута",
-          price: "1500.00",
-        },
-        {
-          id: 3,
-          title: "Корзина для рыбы",
-          img: "рыба_9.jpg",
-          description: "Изделие из ивового прута",
-          price: "1600.00",
-        },
-        {
-          id: 4,
-          title: "Корзина для пикника",
-          img: "пикник_3.jpg",
-          description: "Изделие из ивового прута",
-          price: "2500.00",
-        },
-        {
-          id: 5,
-          title: "Дровница",
-          img: "дровница.jpg",
-          description: "Изделие из ивового прута",
-          price: "3000.00",
-        },
-        {
-          id: 6,
-          title: "Фруктовница",
-          img: "фруктовница.jpg",
-          description: "Изделие из ивового прута",
-          price: "700.00",
-        },
-        {
-          id: 7,
-          title: "Короб для выпечки",
-          img: "хлеб.jpg",
-          description: "Изделие из ивового прута",
-          price: "2100.00",
-        },
-      ],  */
     };
 
     this.addToOrder = this.addToOrder.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
-    
+    this.handleSortAndFilter = this.handleSortAndFilter.bind(this);
+    this.handleLoad = this.handleLoad.bind(this);
   }
 
-  
   render() {
-   
+
     return (
       <>
         <Router>
-        <CookiesProvider>
-          <Navibar orders={this.state.orders} onDelete={this.deleteOrder}/>
+          <CookiesProvider>
+            <Navibar orders={this.state.orders} onDelete={this.deleteOrder} />
           </CookiesProvider>
           <Routes>
-            <Route exact path="/" element={<Catalog products={this.state.products} onAdd={this.addToOrder} />} />
-            <Route path="/Basket" element={<Basket  orders={this.state.orders} onDelete={this.deleteOrder}/>} />
+            <Route exact path="/"
+              element={<Catalog
+                products={this.state.products}
+                isLoaded={this.state.isLoaded}
+                error={this.state.error}
+                onAdd={this.addToOrder}
+                handleLoad={this.handleLoad}
+                handleSortAndFilter={this.handleSortAndFilter} />} />
+            <Route path="/Basket" element={<Basket 
+                orders={this.state.orders} 
+                onDelete={this.deleteOrder} 
+                isLoaded={this.state.isLoaded}
+                error={this.state.error}
+                onAdd={this.addToOrder} />} />
           </Routes>
         </Router>
-        
+
         <Footer />
       </>
     );
   }
 
-  deleteOrder(id){
-    var param = "?product_id=" + id;
-    fetch("http://localhost:8080/remove_from_basket" + param)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        this.setState({
-          isLoaded: true,
-          orders: result.orders
-          
-        });
-      },
-      
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
-      }
-    )
+  handleLoad() {
+    this.load("http://localhost:8080/products");
+  }
 
+  handleSortAndFilter(keyword, sort) {
+    let request = "http://localhost:8080/products?keyword=" + keyword + "&sort=" + sort;
+    this.load(request);
+  }
 
-    /* this.setState({orders:this.state.orders.filter(el=>el.id!==id)}) */
-   }
+  load(request) {
+    fetch(request)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            products: result.products
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
 
+  load_basket(param){
+    fetch(param)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            orders: result.orders
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+
+  deleteOrder(id) {
+    let param = "http://localhost:8080/remove_from_basket?product_id=" + id;
+    this.load_basket(param);
+  }
 
   addToOrder(product) {
-
-    var param = "http://localhost:8080/basket" + "?product_id=" + product.id + "&action=1";
-    fetch(param)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        this.setState({
-          isLoaded: true,
-          orders: result.orders
-          
-        });
-      },
-      
-      (error) => {
-        this.setState({
-          isLoaded: true,
-          error
-        });
-      }
-    )
+    var param = "http://localhost:8080/basket?product_id=" + product.id + "&action=1";
+    this.load_basket(param);
 
     /* let isInArray = false;
     this.state.orders.forEach((el) => {

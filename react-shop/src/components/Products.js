@@ -23,7 +23,7 @@ export class Products extends Component {
 
           {products.map(el => (
 
-            <Product key={el.id} product={el} onAdd={this.props.onAdd} />
+            <Product key={el.id} product={el} onAdd={this.props.onAdd} goodsCounter={this.props.goodsCounter} addCounter={this.props.addCounter}  />
 
           ))}
 

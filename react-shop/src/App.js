@@ -12,6 +12,8 @@ import { Basket } from "./pages/Basket";
 import { CookiesProvider } from 'react-cookie';
 
 
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -20,13 +22,18 @@ class App extends React.Component {
       orders: [],
       products: [],
       isLoaded: false,
-      error: 0
+      isLoadedBasket: false,
+      error: 0,
+      goodsCounter: []
     };
 
     this.addToOrder = this.addToOrder.bind(this);
     this.deleteOrder = this.deleteOrder.bind(this);
     this.handleSortAndFilter = this.handleSortAndFilter.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
+    this.handleLoadBasket = this.handleLoadBasket.bind(this);
+    this.addCounter = this.addCounter.bind(this)
+    
   }
 
   render() {
@@ -35,7 +42,7 @@ class App extends React.Component {
       <>
         <Router>
           <CookiesProvider>
-            <Navibar orders={this.state.orders} onDelete={this.deleteOrder} />
+            <Navibar orders={this.state.orders} onDelete={this.deleteOrder} goodsCounter={this.state.goodsCounter} />
           </CookiesProvider>
           <Routes>
             <Route exact path="/"
@@ -45,13 +52,16 @@ class App extends React.Component {
                 error={this.state.error}
                 onAdd={this.addToOrder}
                 handleLoad={this.handleLoad}
-                handleSortAndFilter={this.handleSortAndFilter} />} />
+                handleSortAndFilter={this.handleSortAndFilter}
+                goodsCounter={this.state.goodsCounter}
+                addCounter={this.addCounter} />} />
             <Route path="/Basket" element={<Basket
-                orders={this.state.orders}
-                onDelete={this.deleteOrder}
-                isLoaded={this.state.isLoaded}
-                error={this.state.error}
-                onAdd={this.addToOrder} />} />
+              orders={this.state.orders}
+              onDelete={this.deleteOrder}
+              isLoadedBasket={this.state.isLoadedBasket}
+              error={this.state.error}
+              onAdd={this.addToOrder}
+              handleLoadBasket={this.handleLoadBasket} />} />
           </Routes>
         </Router>
 
@@ -60,8 +70,22 @@ class App extends React.Component {
     );
   }
 
+
+  /* counter(goodsCounter) {
+    let count = document.getElementById('counter');
+      console.log(goodsCounter)
+      count.textContent = goodsCounter
+
+    
+  } */
+
   handleLoad() {
     this.load("http://localhost:8080/products");
+    /* this.addCounter(this.state.goodsCounter); */
+    /* this.counter(); */
+  }
+  handleLoadBasket() {
+    this.load_basket("http://localhost:8080/basket")
   }
 
   handleSortAndFilter(keyword, sort) {
@@ -74,10 +98,14 @@ class App extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
+          
           this.setState({
             isLoaded: true,
-            products: result.products
+            products: result.products,
+            goodsCounter: result.goodsCounter
           });
+          this.addCounter(this.state.goodsCounter);
+          
         },
         (error) => {
           this.setState({
@@ -88,19 +116,22 @@ class App extends React.Component {
       )
   }
 
-  load_basket(param){
+  load_basket(param) {
     fetch(param)
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
-            isLoaded: true,
-            orders: result.orders
+            isLoadedBasket: true,
+            orders: result.products,
+            goodsCounter: result.goodsCounter
           });
+          this.addCounter(result.goodsCounter)
+          
         },
         (error) => {
           this.setState({
-            isLoaded: true,
+            isLoadedBasket: true,
             error
           });
         }
@@ -109,18 +140,62 @@ class App extends React.Component {
 
   deleteOrder(id) {
     let param = "http://localhost:8080/remove_from_basket?product_id=" + id;
-    this.load_basket(param);
+    fetch(param)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoadedBasket: true,
+          orders: result.products,
+          goodsCounter: result.goodsCounter
+        });
+        this.addCounter(result.goodsCounter)
+        
+      },
+      (error) => {
+        this.setState({
+          isLoadedBasket: true,
+          error
+        });
+      }
+    )
+    
+    
   }
 
   addToOrder(product) {
     var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=1";
-    this.load_basket(param);
+    
+    fetch(param)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoadedBasket: true,
+          //orders: result.products,
+          goodsCounter: result.goodsCounter
+        });
+        this.addCounter(result.goodsCounter)
+        
+      },
+      (error) => {
+        this.setState({
+          isLoadedBasket: true,
+          error
+        });
+      }
+    )
+   
+    
+    this.addCounter(this.state.goodsCounter);
 
-    /* let isInArray = false;
-    this.state.orders.forEach((el) => {
-      if (el.id === product.id) isInArray = true;
-    });
-    if (!isInArray) this.setState({ orders: [...this.state.orders, product] }); */
+  }
+
+  
+  addCounter(props){
+  let insertCounter = document.getElementById('counter');
+  insertCounter.textContent = props
+  
   }
 }
 

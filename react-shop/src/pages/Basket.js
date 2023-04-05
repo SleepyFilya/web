@@ -11,11 +11,12 @@ export class Basket extends Component {
       <div className="wrapper">
         <h2>Корзина</h2>
         <ProductsInTheBasket 
-                orders={this.state.orders} 
-                onDelete={this.deleteOrder} 
-                isLoaded={this.state.isLoaded}
-                error={this.state.error}
-                onAdd={this.addToOrder} />      
+                orders={this.props.orders} 
+                onDelete={this.props.onDelete} 
+                isLoadedBasket={this.props.isLoadedBasket}
+                error={this.props.error}
+                onAdd={this.props.addToOrder}
+                handleLoadBasket={this.props.handleLoadBasket} />      
       </div>
       
     );

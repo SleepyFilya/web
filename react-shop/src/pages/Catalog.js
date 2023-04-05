@@ -15,7 +15,9 @@ export class Catalog extends Component {
           isLoaded={this.props.isLoaded}
           error={this.props.error}
           onAdd={this.props.onAdd}
-          handleLoad={this.props.handleLoad} />
+          addCounter={this.props.addCounter} 
+          handleLoad={this.props.handleLoad}
+          goodsCounter={this.props.goodsCounter} />
       </div>
     );
   }

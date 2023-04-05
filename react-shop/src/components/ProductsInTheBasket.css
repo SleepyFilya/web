@@ -1,4 +1,4 @@
-.buy{
+/* .buy{
     height: 250px;
 }
 #total-price{
@@ -6,8 +6,9 @@
 }
 .tdImg{
     text-align: center;
+    width: 200px;
 }
-
+ */
 .input-number {
     display: flex;
     align-items: center;

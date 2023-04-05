@@ -20,8 +20,11 @@ export default function NaviBar() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
   const [cookies, setCookie] = useCookies();
   let cityCookie = cookies.local;
+
+  
 
   useEffect(() => {
     if (!cityCookie) {
@@ -32,7 +35,9 @@ export default function NaviBar() {
   let cityToRender = cookies.local ? cookies.local : 'ГОРОД';
 
   return (
+    
     <>
+     
       <header className="bg-dark">
         <div className="container">
           <div className="row">
@@ -107,7 +112,10 @@ export default function NaviBar() {
                         )}
                       </div>
                     </Link>
-                    <span className="counter">0</span>
+
+                   
+                    <span className="counter" id="counter">
+                    </span>
                   </div>
 
                   <span className="btn btn-dark btn-lg btn" id="btnLocation">

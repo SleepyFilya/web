@@ -4,62 +4,23 @@ import { BsFillTrashFill } from "react-icons/bs";
 
 
 export class Order extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      products: []
-    };
-  }
-
-  componentDidMount() {
-    fetch("http://localhost:8080/basket")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            products: result.products
-            
-          });
-        },
-        
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  } 
+  
   render() {
 
-    const error= this.state.error;
-    //const orders = this.state.orders;
-    const isLoaded = this.state.isLoaded;
-    const products = this.state.products;
-    
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
     return (
 
       <div className="item">
 
         <div class="container pt-4" id="basket">
 
-          <div class="row gx-5">
+          <div class="row ">
             <div class="col-9">
               <div>
                 <table class="table table-hover table-responsive-xl">
                   <tbody>
                     <tr>
                       <td className="tdImg">
-                        <img src={"./img/" + products.imageLink} alt="img" />
+                        <img src={"./img/" + this.props.order.imageLink} alt="img" />
                       </td>
                       <td></td>
                       <td id="count">
@@ -85,11 +46,11 @@ export class Order extends Component {
                         </div>
                       </td>
                       <td>
-                        <b>{products.price}<FaRubleSign /></b>
+                        <b>{this.props.order.price}<FaRubleSign /></b>
                       </td>
 
                       <td>
-                        <BsFillTrashFill className="delete-icon" onClick={() => this.props.onDelete(products.id)} />
+                        <BsFillTrashFill className="delete-icon" onClick={() => this.props.onDelete(this.props.order.id)} />
                       </td>
                     </tr>
                   </tbody>
@@ -108,6 +69,6 @@ export class Order extends Component {
     );
   }
 }
-}
+
 
 export default Order;

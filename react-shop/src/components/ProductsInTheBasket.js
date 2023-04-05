@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from 'react'
 import Order from "./Order";
 import { FaRubleSign } from "react-icons/fa";
 
@@ -15,7 +15,7 @@ const showOrders = (props) => {
         <h2>К покупке</h2>
         <div class="total-price">
           Итого: <span id="total-price">{new Intl.NumberFormat().format(summa)}
-        <FaRubleSign /></span>
+            <FaRubleSign /></span>
         </div>
         <button type="button" class="btn btn-dark mb-2" id="createOrder">
           Оформить покупку
@@ -33,10 +33,40 @@ const showNothing = () => {
   );
 };
 
-export default function ProductsInTheBasket(props) {
-  return (
-    <div className="shop-cart">
-      {props.orders.length > 0 ? showOrders(props) : showNothing()}
-    </div>
-  );
+
+
+export class ProductsInTheBasket extends Component {
+
+  componentDidMount() {
+    this.props.handleLoadBasket();
+  }
+  render() {
+    const error = this.props.error;
+    const isLoaded = this.props.isLoadedBasket;
+    const orders = this.props.orders;
+
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+
+         <main>
+          
+
+          {orders.map(el => (
+
+            <Order onDelete={this.props.onDelete} key={el.id} order={el}/>
+            
+
+          ))}
+
+        </main>
+       
+      );
+    }
+  }
 }
+
+export default ProductsInTheBasket;

@@ -1,4 +1,4 @@
-/* .buy{
+.buy{
     height: 250px;
 }
 #total-price{
@@ -8,7 +8,7 @@
     text-align: center;
     width: 200px;
 }
- */
+
 .input-number {
     display: flex;
     align-items: center;
@@ -39,3 +39,12 @@
     cursor: pointer;
     user-select: none;
 }
+
+main{
+    padding-bottom: 100px;
+}
+/*  #orderForm{
+    height: 250px;
+    position: absolute;
+   float: right;
+} */

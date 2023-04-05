@@ -12,6 +12,8 @@ import { Basket } from "./pages/Basket";
 import { CookiesProvider } from 'react-cookie';
 
 
+import { useCookies } from 'react-cookie';
+import Cookies from "js-cookie";
 
 
 class App extends React.Component {
@@ -61,7 +63,8 @@ class App extends React.Component {
               isLoadedBasket={this.state.isLoadedBasket}
               error={this.state.error}
               onAdd={this.addToOrder}
-              handleLoadBasket={this.handleLoadBasket} />} />
+              handleLoadBasket={this.handleLoadBasket}
+              createOrder={this.createOrder} />} />
           </Routes>
         </Router>
 
@@ -196,6 +199,33 @@ class App extends React.Component {
   let insertCounter = document.getElementById('counter');
   insertCounter.textContent = props
   
+  }
+
+
+  createOrder(){
+  /*   
+const [cookies, getCookie] = useCookies(); */
+    var param = "http://localhost:8080/create_order?local=" + document.cookie.slice(6);
+    
+    fetch(param)
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoadedBasket: true,
+          orders: result.products,
+          goodsCounter: result.goodsCounter
+        });
+        this.addCounter(result.goodsCounter)
+        
+      },
+      (error) => {
+        this.setState({
+          isLoadedBasket: true,
+          error
+        });
+      }
+    )
   }
 }
 

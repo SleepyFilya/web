@@ -9,7 +9,7 @@ export class Product extends Component {
         <h2>{this.props.product.title}</h2>
         <p>{this.props.product.description}</p>
         <b>{this.props.product.price}<FaRubleSign/></b>
-        <div className="add-to-cart" onClick={() => {this.props.onAdd(this.props.product);{/* this.props.addCounter(this.props.goodsCounter) */}}}>+</div>
+        <div className="add-to-cart" onClick={() => {this.props.onAdd(this.props.product)}}>+</div>
       </div>
     );
   }

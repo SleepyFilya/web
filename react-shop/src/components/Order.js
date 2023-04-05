@@ -9,60 +9,48 @@ export class Order extends Component {
 
     return (
 
-      <div className="item">
+      <div class="container pt-4" id="basket">
+   
+    <div class="row gx-5">
+        <div class="col-9">
+            <div >
 
-        <div class="container pt-4" id="basket">
-
-          <div class="row ">
-            <div class="col-9">
-              <div>
                 <table class="table table-hover table-responsive-xl">
-                  <tbody>
-                    <tr>
-                      <td className="tdImg">
-                        <img src={"./img/" + this.props.order.imageLink} alt="img" />
-                      </td>
-                      <td></td>
-                      <td id="count">
-                        <div class="input-number">
-                          <button
-                            type="button"
-                            class="input-number-minus btn btn-dark"
-                          >
-                            -
-                          </button>
-                          <input
-                            class="input-number-input"
-                            type="text"
-                            pattern="^[0-9]+$"
-                            placeholder="1"
-                          />
-                          <button
-                            type="button"
-                            class="input-number-plus btn btn-dark"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </td>
-                      <td>
-                        <b>{this.props.order.price}<FaRubleSign /></b>
-                      </td>
 
-                      <td>
+                    <tbody>
+                    <tr >
+
+                        <td style={{textAlign: 'center'}}>
+                        <img src={"./img/" + this.props.order.imageLink} alt="img" width="250px"/>
+                        </td>
+                        <td>{this.props.order.title}</td>
+                        <td id="count">
+                            <div class="input-number">
+                                <button type="button" class="input-number-minus btn btn-dark" >-</button>
+                                <input class="input-number-input" type="text" pattern="^[0-9]+$" placeholder="1"/>
+                                <button type="button" class="input-number-plus btn btn-dark" >+</button>
+                            </div>
+                        </td>
+                        <td>
+                            <b>{this.props.order.price}<FaRubleSign /></b>
+                           
+                        </td>
+
+                        <td>
                         <BsFillTrashFill className="delete-icon" onClick={() => this.props.onDelete(this.props.order.id)} />
-                      </td>
+                        </td>
+
                     </tr>
-                  </tbody>
+                    </tbody>
                 </table>
-              </div>
             </div>
-
-          </div>
-
         </div>
 
-      </div>
+       
+    </div>
+</div>
+
+
 
 
 

@@ -131,8 +131,11 @@ public class RestHome {
 
     @GetMapping("/create_order")
     public BasketDto createOrderFromBasket(Model model, HttpSession session,
-                                        @CookieValue(value = "location", required = false) Cookie location)
+//                                        @CookieValue(value = "location", required = false) Cookie location)
+                                           @RequestParam(name="local") String location)
+
     {
+        System.out.println(location);
 //        Basket currentBasket = basketsCollection.getBasketMap().get(session);
         Basket currentBasket = basketsCollection.getBasketMap().get(mainSession);
 //        OrderModel basketEntry = new OrderModel(session.toString(),
@@ -140,7 +143,7 @@ public class RestHome {
 //                Date.from(Instant.now()), location.getValue());
         OrderModel basketEntry = new OrderModel(mainSession.toString(),
                 currentBasket.mapToString(),
-                Date.from(Instant.now()), location.getValue());
+                Date.from(Instant.now()), location);
 
         orderRepository.save(basketEntry);
 

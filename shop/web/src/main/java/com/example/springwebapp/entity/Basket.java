@@ -31,7 +31,11 @@ public class Basket
         productMap.put(product, productMap.get(product) - 1);
     }
 
-    public void removeProductFromMap(Product product) { productMap.remove(product); }
+    public void removeProductFromMap(Product product)
+    {
+        product.setCount(0);
+        productMap.remove(product);
+    }
 
     public void removeAllFromMap() { productMap.clear(); }
 
@@ -48,7 +52,8 @@ public class Basket
     public String mapToString()
     {
         StringBuilder mapAsString = new StringBuilder("{");
-        for (Product key : productMap.keySet()) {
+        for (Product key : productMap.keySet())
+        {
             mapAsString.append(key + "=" + productMap.get(key) + ";");
         }
         mapAsString.delete(mapAsString.length()-1, mapAsString.length()).append("}");

@@ -135,15 +135,18 @@ public class RestHome {
                                            @RequestParam(name="local") String location)
 
     {
-        System.out.println(location);
+        System.out.println("LOCATION: "+location);
 //        Basket currentBasket = basketsCollection.getBasketMap().get(session);
         Basket currentBasket = basketsCollection.getBasketMap().get(mainSession);
+        System.out.println("Basket: "+currentBasket);
 //        OrderModel basketEntry = new OrderModel(session.toString(),
 //                currentBasket.mapToString(),
 //                Date.from(Instant.now()), location.getValue());
         OrderModel basketEntry = new OrderModel(mainSession.toString(),
                 currentBasket.mapToString(),
                 Date.from(Instant.now()), location);
+        System.out.println("basketEntry: "+basketEntry);
+
 
         orderRepository.save(basketEntry);
 

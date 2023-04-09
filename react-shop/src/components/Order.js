@@ -15,28 +15,28 @@ export class Order extends Component {
                     <div className="col-9">
                         <div >
 
-                            <table className="table table-hover table-responsive-xl">
+                            <table className="table table-hover table-responsive-xl" style={{tableLayout: 'fixed'}}>
 
                                 <tbody>
                                     <tr >
 
-                                        <td style={{ textAlign: 'center' }}>
+                                        <td style={{ textAlign: 'center', width:'300px'}}>
                                             <img src={"./img/" + this.props.order.imageLink} alt="img" width="250px" />
                                         </td>
-                                        <td>{this.props.order.title}</td>
-                                        <td id="count">
-                                            <div className="input-number">
+                                        <td style={{width:'300px'}}>{this.props.order.title}</td>
+                                        <td id="count" style={{ width:'250px'}}>
+                                            <div className="input-number" style={{ textAlign: 'center'}}>
                                                 <button type="button" className="input-number-minus btn btn-dark" id="minusOne" onClick={() => this.props.lowerCounter(this.props.order)}>-</button>
                                                 <input className="input-number-input" type="text" pattern="^[0-9]+$" value={this.props.order.count}/>
                                                 <button type="button" className="input-number-plus btn btn-dark" id="plusOne" onClick={() => this.props.upperCounter(this.props.order)}>+</button>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td style={{width:'300px'}}>
                                             <b>{this.props.order.price}<FaRubleSign /></b>
 
                                         </td>
 
-                                        <td>
+                                        <td style={{width:'250px'}}>
                                             <BsFillTrashFill className="delete-icon" onClick={() => this.props.onDelete(this.props.order.id)} />
                                         </td>
 

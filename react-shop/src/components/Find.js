@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import './Find.css';
+import {FaSearch} from "react-icons/fa";
+
 
 import $ from 'jquery';
 
@@ -28,11 +30,12 @@ export class Find extends Component {
               <form id="searchForm">
                 <div className="row d-flex">
                   <div className="col-md-6 mt-2">
-                    <div className="search">
-                      <i className="fa fa-search"></i>
+                    <div className="search" >
+                    <FaSearch className="fa-search"/>
                       <input id="keyword" type="search" name="keyword"
                         className="form-control"
                         placeholder="Поиск" />
+                        
                       <button id="mySearch" type="submit" className="btn btn-secondary" onClick={(e) => { this.Search("no"); e.preventDefault() }}>Найти
                       </button>
                     </div>

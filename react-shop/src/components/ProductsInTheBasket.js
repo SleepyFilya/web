@@ -2,6 +2,58 @@ import React, { Component } from 'react'
 import Order from "./Order";
 import { FaRubleSign } from "react-icons/fa";
 
+const showOrders = (summa) => {
+  return (
+    <div className="container pt-4" id="basket">
+
+      <div className="row gx-5">
+        <div className="col-9">
+          <div >
+
+            <table className="table table-hover table-responsive-xl">
+
+              <tbody>
+                <tr >
+
+                  <td style={{ textAlign: 'center', fontSize: '50px', paddingLeft: '65px' }}>
+                    <h2> К покупке</h2>
+
+                  </td>
+                  <td>
+                    <h2>итого:</h2>
+                  </td>
+
+                  <td>
+                    <h2>{new Intl.NumberFormat().format(summa)}<FaRubleSign /></h2>
+
+                  </td>
+
+                  <td>
+                    <h2><button type="button" className="btn btn-dark mb-2" id="createOrder" style={{ fontSize: '20px' }} onClick={() => { this.props.createOrder() }} >Оформить покупку</button></h2>
+
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  )
+}
+
+const showNothing = () => {
+  return (
+    <div className="showNothing">
+      <h2>В корзине пока пусто</h2>
+      <p>Перейдите в каталог, чтобы выбрать товары</p>
+    </div>
+
+  )
+}
 
 export class ProductsInTheBasket extends Component {
 
@@ -14,7 +66,7 @@ export class ProductsInTheBasket extends Component {
     const orders = this.props.orders;
 
     let summa = 0;
-    orders.forEach((el) => (summa += Number.parseFloat(el.price)));
+    orders.forEach((el) => (summa += Number.parseFloat(el.price * el.count)));
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -23,48 +75,17 @@ export class ProductsInTheBasket extends Component {
     } else {
       return (
         <main>
+
           {orders.map(el => (
-            <Order onDelete={this.props.onDelete} key={el.id} order={el} />
+
+            <Order onDelete={this.props.onDelete} key={el.id} order={el} lowerCounter={this.props.lowerCounter}
+              upperCounter={this.props.upperCounter} />
+
           ))}
 
-          <div class="container pt-4" id="basket">
+          {orders.length > 0 ?
+            showOrders(summa) : showNothing()}
 
-            <div class="row gx-5">
-              <div class="col-9">
-                <div >
-
-                  <table class="table table-hover table-responsive-xl">
-
-                    <tbody>
-                      <tr >
-
-                        <td style={{ textAlign: 'center', fontSize: '50px', paddingLeft: '65px' }}>
-                          <h2> К покупке</h2>
-
-                        </td>
-                        <td>
-                          <h2>итого:</h2>
-                        </td>
-
-                        <td>
-                          <h2>{new Intl.NumberFormat().format(summa)}<FaRubleSign /></h2>
-
-                        </td>
-
-                        <td>
-                          <h2><button type="button" class="btn btn-dark mb-2" id="createOrder" style={{ fontSize: '20px' }} onClick={() => {this.props.createOrder()}} >Оформить покупку</button></h2>
-
-                        </td>
-
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
 
         </main>
 

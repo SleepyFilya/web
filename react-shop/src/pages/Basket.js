@@ -9,7 +9,8 @@ export class Basket extends Component {
   render() {
     return (
       <div className="wrapper" style={{marginBottom: '200px'}}>
-        <h2>Корзина</h2>
+        <h2 style={{marginLeft:'20px'}} id="h2Basket">Корзина</h2>
+        
         <ProductsInTheBasket 
                 orders={this.props.orders} 
                 onDelete={this.props.onDelete} 
@@ -17,7 +18,10 @@ export class Basket extends Component {
                 error={this.props.error}
                 onAdd={this.props.addToOrder}
                 handleLoadBasket={this.props.handleLoadBasket} 
-                createOrder={this.props.createOrder}/>      
+                checkAndDisable={this.props.checkAndDisable}
+                createOrder={this.props.createOrder}
+                lowerCounter={this.props.lowerCounter}
+              upperCounter={this.props.upperCounter}/>      
       </div>
       
     );

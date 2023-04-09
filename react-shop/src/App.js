@@ -11,10 +11,7 @@ import { Basket } from "./pages/Basket";
 
 import { CookiesProvider } from 'react-cookie';
 
-
-import { useCookies } from 'react-cookie';
-import Cookies from "js-cookie";
-
+import $ from 'jquery';
 
 class App extends React.Component {
   constructor(props) {
@@ -34,8 +31,11 @@ class App extends React.Component {
     this.handleSortAndFilter = this.handleSortAndFilter.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
     this.handleLoadBasket = this.handleLoadBasket.bind(this);
-    this.addCounter = this.addCounter.bind(this)
-    
+    this.addCounter = this.addCounter.bind(this);
+    this.lowerCounter = this.lowerCounter.bind(this);
+    this.upperCounter = this.upperCounter.bind(this);
+    this.checkAndDisable = this.checkAndDisable.bind(this);
+
   }
 
   render() {
@@ -64,7 +64,10 @@ class App extends React.Component {
               error={this.state.error}
               onAdd={this.addToOrder}
               handleLoadBasket={this.handleLoadBasket}
-              createOrder={this.createOrder} />} />
+              checkAndDisable={this.checkAndDisable}
+              createOrder={this.createOrder}
+              lowerCounter={this.lowerCounter}
+              upperCounter={this.upperCounter} />} />
           </Routes>
         </Router>
 
@@ -74,21 +77,13 @@ class App extends React.Component {
   }
 
 
-  /* counter(goodsCounter) {
-    let count = document.getElementById('counter');
-      console.log(goodsCounter)
-      count.textContent = goodsCounter
-
-    
-  } */
-
   handleLoad() {
     this.load("http://localhost:8080/products");
-    /* this.addCounter(this.state.goodsCounter); */
-    /* this.counter(); */
+
   }
   handleLoadBasket() {
     this.load_basket("http://localhost:8080/basket")
+
   }
 
   handleSortAndFilter(keyword, sort) {
@@ -101,14 +96,14 @@ class App extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          
+
           this.setState({
             isLoaded: true,
             products: result.products,
             goodsCounter: result.goodsCounter
           });
           this.addCounter(this.state.goodsCounter);
-          
+
         },
         (error) => {
           this.setState({
@@ -130,8 +125,10 @@ class App extends React.Component {
             goodsCounter: result.goodsCounter
           });
           this.addCounter(result.goodsCounter)
-          
+          this.checkAndDisable()
+
         },
+
         (error) => {
           this.setState({
             isLoadedBasket: true,
@@ -144,88 +141,155 @@ class App extends React.Component {
   deleteOrder(id) {
     let param = "http://localhost:8080/remove_from_basket?product_id=" + id;
     fetch(param)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        this.setState({
-          isLoadedBasket: true,
-          orders: result.products,
-          goodsCounter: result.goodsCounter
-        });
-        this.addCounter(result.goodsCounter)
-        
-      },
-      (error) => {
-        this.setState({
-          isLoadedBasket: true,
-          error
-        });
-      }
-    )
-    
-    
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoadedBasket: true,
+            orders: result.products,
+            goodsCounter: result.goodsCounter
+          });
+          this.addCounter(result.goodsCounter)
+
+        },
+        (error) => {
+          this.setState({
+            isLoadedBasket: true,
+            error
+          });
+        }
+      )
+
+
   }
 
   addToOrder(product) {
     var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=1";
-    
+
     fetch(param)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        this.setState({
-          isLoadedBasket: true,
-          //orders: result.products,
-          goodsCounter: result.goodsCounter
-        });
-        this.addCounter(result.goodsCounter)
-        
-      },
-      (error) => {
-        this.setState({
-          isLoadedBasket: true,
-          error
-        });
-      }
-    )
-   
-    
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoadedBasket: true,
+            goodsCounter: result.goodsCounter
+          });
+          this.addCounter(result.goodsCounter)
+
+
+        },
+        (error) => {
+          this.setState({
+            isLoadedBasket: true,
+            error
+          });
+        }
+      )
+
+
     this.addCounter(this.state.goodsCounter);
 
   }
 
-  
-  addCounter(props){
-  let insertCounter = document.getElementById('counter');
-  insertCounter.textContent = props
-  
+
+  addCounter(props) {
+    let insertCounter = document.getElementById('counter');
+    insertCounter.textContent = props
+
   }
 
 
-  createOrder(){
-  /*   
-const [cookies, getCookie] = useCookies(); */
+  createOrder() {
+    /*   
+  const [cookies, getCookie] = useCookies(); */
     var param = "http://localhost:8080/create_order?local=" + document.cookie.slice(6);
-    
+
     fetch(param)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        this.setState({
-          isLoadedBasket: true,
-          orders: result.products,
-          goodsCounter: result.goodsCounter
-        });
-        this.addCounter(result.goodsCounter)
-        
-      },
-      (error) => {
-        this.setState({
-          isLoadedBasket: true,
-          error
-        });
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoadedBasket: true,
+            orders: result.products,
+            goodsCounter: result.goodsCounter
+          });
+          this.addCounter(result.goodsCounter)
+
+        },
+        (error) => {
+          this.setState({
+            isLoadedBasket: true,
+            error
+          });
+        }
+      )
+  }
+
+  lowerCounter(product) {
+    
+    var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=0";
+    fetch(param)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoadedBasket: true,
+            goodsCounter: result.goodsCounter
+          });
+          this.addCounter(result.goodsCounter)
+          this.checkAndDisable();
+
+        },
+        this.checkAndDisable(),
+        (error) => {
+          this.setState({
+            isLoadedBasket: true,
+            error
+          });
+        }
+      )
+
+  }
+  upperCounter(product) {
+
+    var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=1";
+    fetch(param)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoadedBasket: true,
+            goodsCounter: result.goodsCounter
+          });
+          this.addCounter(result.goodsCounter)
+          this.checkAndDisable()
+        },
+
+        (error) => {
+          this.setState({
+            isLoadedBasket: true,
+            error
+          });
+        }
+      )
+  }
+
+  checkAndDisable() {
+
+    let btn = document.querySelectorAll('.input-number-minus');
+    let input = document.querySelectorAll('.input-number-input');
+
+    for (var i = 0; i < btn.length; i++) {
+    
+      $(btn[i]).removeAttr('disabled');
+      if ($(input[i]).val() == 0) {
+        $(btn[i]).attr('disabled', true);
+
       }
-    )
+    }
+    this.handleLoadBasket();
+
+
   }
 }
 

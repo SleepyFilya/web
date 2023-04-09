@@ -4,7 +4,7 @@ import {FaRubleSign } from "react-icons/fa";
 export class Product extends Component {
   render() {
     return (
-      <div className="item">
+      <div className="item" id="item-product">
         <img src={"./img/" + this.props.product.imageLink} alt="img" />
         <h2>{this.props.product.title}</h2>
         <p>{this.props.product.description}</p>

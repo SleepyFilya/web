@@ -181,4 +181,10 @@ main .add-to-cart:hover{
   margin-top: 50px;
 } 
 
+#h2Basket {
+  /* color: #32557f; */
+  text-decoration: none;
+  border-bottom: 2px dashed #222;
+  padding-bottom: 3px;
+}
 

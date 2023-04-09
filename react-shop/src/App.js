@@ -166,6 +166,11 @@ class App extends React.Component {
   addToOrder(product) {
     var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=1";
 
+    //Анимация при добавлении товара в корзину
+    /* var that = $(this).closest('.item').find('img'); */
+    /* var that = document.getElementById('item-product'); */
+    
+
     fetch(param)
       .then(res => res.json())
       .then(
@@ -175,7 +180,7 @@ class App extends React.Component {
             goodsCounter: result.goodsCounter
           });
           this.addCounter(result.goodsCounter)
-
+          /* this.animation(that); */
 
         },
         (error) => {
@@ -190,6 +195,30 @@ class App extends React.Component {
     this.addCounter(this.state.goodsCounter);
 
   }
+  /* animation(that) {
+    var basket = $("#basket-icon");
+    var w = that.width();
+
+
+    //Анимация при добавлении товара в корзину
+    that.clone()
+      .css({
+        'width': w,
+        'position': 'absolute',
+        'z-index': '9999',
+        top: that.offset().top,
+        left: that.offset().left
+      })
+      .appendTo("body")
+      .animate({
+        opacity: 0.05,
+        left: basket.offset()['left'],
+        top: basket.offset()['top'],
+        width: 20
+      }, 1000, function () {
+        $(this).remove();
+      });
+  } */
 
 
   addCounter(props) {
@@ -226,7 +255,7 @@ class App extends React.Component {
   }
 
   lowerCounter(product) {
-    
+
     var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=0";
     fetch(param)
       .then(res => res.json())
@@ -280,7 +309,7 @@ class App extends React.Component {
     let input = document.querySelectorAll('.input-number-input');
 
     for (var i = 0; i < btn.length; i++) {
-    
+
       $(btn[i]).removeAttr('disabled');
       if ($(input[i]).val() == 0) {
         $(btn[i]).attr('disabled', true);

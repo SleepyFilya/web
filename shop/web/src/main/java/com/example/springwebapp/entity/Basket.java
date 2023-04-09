@@ -37,7 +37,13 @@ public class Basket
         productMap.remove(product);
     }
 
-    public void removeAllFromMap() { productMap.clear(); }
+    public void removeAllFromMap()
+    {
+        for (Product key : productMap.keySet())
+            key.setCount(0);
+
+        productMap.clear();
+    }
 
     public int countBasket()
     {

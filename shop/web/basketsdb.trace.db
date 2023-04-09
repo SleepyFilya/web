@@ -216,3 +216,15 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибк
 Syntax error in SQL statement "DELETE FROM BASKETS WHERE BASKET_ID=5\000d\000a[*]SELECT * FROM BASKETS"; SQL statement:
 DELETE FROM BASKETS WHERE BASKET_ID=5
 SELECT * FROM BASKETS [42000-214]
+2023-04-09 19:33:55 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "[*]remove * from baskets"; ожидалось "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE"
+Syntax error in SQL statement "[*]remove * from baskets"; expected "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE"; SQL statement:
+remove * from baskets [42001-214]
+2023-04-09 19:34:05 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "delete [*]* from baskets"; ожидалось "identifier"
+Syntax error in SQL statement "delete [*]* from baskets"; expected "identifier"; SQL statement:
+delete * from baskets [42001-214]
+2023-04-09 19:38:04 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "[*]selects * from baskets"; ожидалось "SAVEPOINT, SCRIPT, SHUTDOWN, SHOW"
+Syntax error in SQL statement "[*]selects * from baskets"; expected "SAVEPOINT, SCRIPT, SHUTDOWN, SHOW"; SQL statement:
+selects * from baskets [42001-214]

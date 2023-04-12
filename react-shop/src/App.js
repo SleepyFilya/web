@@ -17,7 +17,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      /* Orders-массив для корзины */
       orders: [],
       products: [],
       isLoaded: false,
@@ -166,11 +165,6 @@ class App extends React.Component {
   addToOrder(product) {
     var param = "http://localhost:8080/change_basket?product_id=" + product.id + "&action=1";
 
-    //Анимация при добавлении товара в корзину
-    /* var that = $(this).closest('.item').find('img'); */
-    /* var that = document.getElementById('item-product'); */
-    
-
     fetch(param)
       .then(res => res.json())
       .then(
@@ -195,31 +189,6 @@ class App extends React.Component {
     this.addCounter(this.state.goodsCounter);
 
   }
-  /* animation(that) {
-    var basket = $("#basket-icon");
-    var w = that.width();
-
-
-    //Анимация при добавлении товара в корзину
-    that.clone()
-      .css({
-        'width': w,
-        'position': 'absolute',
-        'z-index': '9999',
-        top: that.offset().top,
-        left: that.offset().left
-      })
-      .appendTo("body")
-      .animate({
-        opacity: 0.05,
-        left: basket.offset()['left'],
-        top: basket.offset()['top'],
-        width: 20
-      }, 1000, function () {
-        $(this).remove();
-      });
-  } */
-
 
   addCounter(props) {
     let insertCounter = document.getElementById('counter');
@@ -229,8 +198,6 @@ class App extends React.Component {
 
 
   createOrder() {
-    /*   
-  const [cookies, getCookie] = useCookies(); */
     var param = "http://localhost:8080/create_order?local=" + document.cookie.slice(6);
 
     fetch(param)
@@ -317,8 +284,6 @@ class App extends React.Component {
       }
     }
     this.handleLoadBasket();
-
-
   }
 }
 
